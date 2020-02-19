@@ -1,6 +1,7 @@
 package pl.perski.eat.together.database.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -9,14 +10,9 @@ import java.util.Date;
 @Entity
 @Table(name = "events")
 public class Event extends AuditModel {
-    @Id
-    @GeneratedValue(generator = "event_generator")
-    @SequenceGenerator(
-            name = "event_generator",
-            sequenceName = "event_sequence",
-            initialValue = 1000
-    )
-    private Long id;
+    @Id @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    private String id;
 
     @NotNull
     @Column(name = "date")
@@ -41,14 +37,14 @@ public class Event extends AuditModel {
     @Column(name = "is_public")
     private Boolean isPublic;
 
-    @Column(name = "status", columnDefinition = "default '0'")
+    @Column(name = "status", columnDefinition = "default '0' ")
     private int status;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -99,12 +95,12 @@ public class Event extends AuditModel {
     public void setStatus(int status) {
         this.status = status;
     }
-
-    public User getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(User author) {
-        this.author = author;
-    }
+//
+//    public User getAuthor() {
+//        return author;
+//    }
+//
+//    public void setAuthor(User author) {
+//        this.author = author;
+//    }
 }

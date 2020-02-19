@@ -1,32 +1,30 @@
 package pl.perski.eat.together.database.model;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "groups")
 public class Group extends AuditModel {
-    @Id
-    @GeneratedValue(generator = "group_generator")
-    @SequenceGenerator(
-            name = "group_generator",
-            sequenceName = "group_sequence"
-    )
-    private Long id;
+    @Id @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    private String id;
 
     @NotNull
     @Column(name = "name")
     private String name;
 
-    @Column(name = "users_ID")
-    private String[] usersId;
+//    @Column(name = "users_ID")
+//    private String[] usersId;
 
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -1,22 +1,25 @@
 package pl.perski.eat.together.database.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+@Builder
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "users")
 public class User extends AuditModel {
-    @Id
-    @GeneratedValue(generator = "user_generator")
-    @SequenceGenerator(
-            name = "user_generator",
-            sequenceName = "user_sequence"
-    )
-    private Long id;
+    @Id @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    private String id;
 
     @NotNull
     @Column(name = "name")
@@ -33,14 +36,14 @@ public class User extends AuditModel {
     @JsonIgnore
     private Account userAccount;
 
-    @Column(name = "user_groups")
-    private String[] userGroups;
+//    @Column(name = "user_groups")
+//    private String[] userGroups;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -76,11 +79,4 @@ public class User extends AuditModel {
         this.userAccount = userAccount;
     }
 
-    public String[] getUserGroups() {
-        return userGroups;
-    }
-
-    public void setUserGroups(String[] userGroups) {
-        this.userGroups = userGroups;
-    }
 }
