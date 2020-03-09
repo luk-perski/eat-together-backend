@@ -8,9 +8,9 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "groups")
 public class Group extends AuditModel {
-    @Id @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     @NotNull
     @Column(name = "name")
@@ -20,11 +20,11 @@ public class Group extends AuditModel {
 //    private String[] usersId;
 
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

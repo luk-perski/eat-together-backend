@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import pl.perski.eat.together.database.model.Event;
 import pl.perski.eat.together.database.repository.EventRepository;
+import pl.perski.eat.together.service.EventService;
+import pl.perski.eat.together.service.model.EventRequest;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -14,18 +16,21 @@ import java.util.List;
 public class EventController {
 
     private final EventRepository eventRepository;
+    private final EventService eventService;
 
-    public EventController(EventRepository eventRepository) {
+    public EventController(EventRepository eventRepository, EventService eventService) {
         this.eventRepository = eventRepository;
+        this.eventService = eventService;
     }
 
-    @GetMapping("/events")
+    //spoko by było tu dodać klasę service
+    @GetMapping(value = "/events", consumes = "application/json")
     public List<Event> getAllEvents() {
         return eventRepository.findAll();
     }
 
-    @PostMapping("/events")
-    public Event addEvent(@Valid @RequestBody Event event) {
-        return eventRepository.save(event);
+    @PostMapping(value = "/events", consumes = "application/json", produces = "application/json")
+    public Event addEvent(@Valid @RequestBody Event request) {
+        return eventService.adEvent(request);
     }
 }

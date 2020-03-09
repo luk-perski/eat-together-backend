@@ -17,9 +17,9 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Table(name = "users")
 public class User extends AuditModel {
-    @Id @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     @NotNull
     @Column(name = "name")
@@ -39,11 +39,11 @@ public class User extends AuditModel {
 //    @Column(name = "user_groups")
 //    private String[] userGroups;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

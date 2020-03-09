@@ -1,18 +1,14 @@
 package pl.perski.eat.together.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import pl.perski.eat.together.database.model.Account;
-import pl.perski.eat.together.database.model.Event;
-import pl.perski.eat.together.database.model.User;
 import pl.perski.eat.together.database.repository.AccountRepository;
-import pl.perski.eat.together.exeption.ResourceNotFoundException;
 import pl.perski.eat.together.service.AccountService;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -28,7 +24,7 @@ public class AccountController {
     }
 
     @GetMapping("/accounts")
-    public List<Account> getAccounts(){
+    public List<Account> getAccounts() {
         return accountRepository.findAll();
     }
 
@@ -38,7 +34,9 @@ public class AccountController {
 //    }
 
     @PostMapping("/accounts")
-    public Account addAcount(@Valid @RequestBody Account account){return accountService.addAccount(account) ;}
+    public Account addAccount(@Valid @RequestBody Account account) {
+        return accountService.addAccount(account);
+    }
 
 
 //    @PutMapping("/accounts/{accountId}/{eventId}")

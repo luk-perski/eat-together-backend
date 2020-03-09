@@ -10,20 +10,15 @@ import java.util.Date;
 @Entity
 @Table(name = "events")
 public class Event extends AuditModel {
-    @Id @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-    @NotNull
+//    @NotNull
     @Column(name = "date")
     private Date date;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "author_id", nullable = false)
-    @JsonIgnore
-    private User author;
-
-    @NotNull
+//    @NotNull
     @Column(name = "place_name")
     private String placeName;
 
@@ -33,18 +28,24 @@ public class Event extends AuditModel {
     @Column(name = "description")
     private String description;
 
-    @NotNull
+//    @NotNull
     @Column(name = "is_public")
     private Boolean isPublic;
 
-    @Column(name = "status", columnDefinition = "default '0' ")
+    @Column(name = "status")
+//    @Column(name = "status", columnDefinition = "default '0' ")
     private int status;
 
-    public String getId() {
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+//    @JsonIgnore
+    private Account account;
+
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -95,12 +96,12 @@ public class Event extends AuditModel {
     public void setStatus(int status) {
         this.status = status;
     }
-//
-//    public User getAuthor() {
-//        return author;
-//    }
-//
-//    public void setAuthor(User author) {
-//        this.author = author;
-//    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 }
