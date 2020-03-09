@@ -1,15 +1,15 @@
 package pl.perski.eat.together.service;
 
-import lombok.Builder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.perski.eat.together.database.model.Account;
 import pl.perski.eat.together.database.model.User;
 import pl.perski.eat.together.database.repository.AccountRepository;
 import pl.perski.eat.together.database.repository.UserRepository;
 
+import java.util.List;
+
 @Service
-public class AccountService implements IAccountService{
+public class AccountService implements IAccountService {
 
     private final AccountRepository accountRepository;
 
@@ -28,5 +28,15 @@ public class AccountService implements IAccountService{
                 userAccount(account).
                 build());
         return accountCreated;
+    }
+
+    @Override
+    public List<Account> getAll() {
+        return accountRepository.findAll();
+    }
+
+    @Override
+    public Account getById(int accoundId) {
+        return accountRepository.findById(accoundId).get(); //todo obsługa błędu
     }
 }

@@ -1,12 +1,10 @@
 package pl.perski.eat.together.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.perski.eat.together.database.model.Account;
 import pl.perski.eat.together.database.repository.AccountRepository;
 import pl.perski.eat.together.service.AccountService;
+import pl.perski.eat.together.service.IAccountService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -16,7 +14,7 @@ public class AccountController {
 
     private final AccountRepository accountRepository;
 
-    private final AccountService accountService;
+    private final IAccountService accountService;
 
     public AccountController(AccountRepository accountRepository, AccountService accountService) {
         this.accountRepository = accountRepository;
@@ -25,13 +23,13 @@ public class AccountController {
 
     @GetMapping("/accounts")
     public List<Account> getAccounts() {
-        return accountRepository.findAll();
+        return accountService.getAll();
     }
 
-//    @GetMapping("/accounts/events/{accountId}")
-//    public String[]  getUserEvents(@PathVariable String accountId) {
-//        return accountRepository.getAccountEvents(accountId);
-//    }
+    @GetMapping("/accounts/{accountId}")
+    public Account getAccountById(@PathVariable int accountId) {
+        return accountService.getById(accountId);
+    }
 
     @PostMapping("/accounts")
     public Account addAccount(@Valid @RequestBody Account account) {

@@ -6,7 +6,10 @@ import java.util.List;
 
 public interface IUserService {
     User add(User user);
+
     User update(User user);
+
     User getById(int userId);
+
     List<User> getManyByIds(List<Integer> idList);
 }

@@ -8,7 +8,6 @@ import pl.perski.eat.together.database.repository.UserRepository;
 import pl.perski.eat.together.service.IUserService;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService implements IUserService {
@@ -29,10 +28,9 @@ public class UserService implements IUserService {
 
     @Override
     public User update(User user) {
-        if (userRepository.findById(user.getId()).isPresent()){
+        if (userRepository.findById(user.getId()).isPresent()) {
             return userRepository.save(user);
-        }
-        else{
+        } else {
             return null; // todo hanle error when is no user in db
         }
     }

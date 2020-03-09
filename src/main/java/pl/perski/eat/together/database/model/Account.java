@@ -1,7 +1,5 @@
 package pl.perski.eat.together.database.model;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 
 
@@ -9,10 +7,11 @@ import javax.persistence.*;
 @Table(name = "accounts")
 public class Account extends AuditModel {
 
+    @Column(name = "event_history")
+    String eventHistory;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
 
 //    @Lob
 //    @Column(name = "event_history", columnDefinition = "text[]")
@@ -34,5 +33,11 @@ public class Account extends AuditModel {
         this.id = id;
     }
 
+    public String getEventHistory() {
+        return eventHistory;
+    }
 
+    public void setEventHistory(String eventHistory) {
+        this.eventHistory = eventHistory;
+    }
 }

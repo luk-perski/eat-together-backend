@@ -1,45 +1,36 @@
 package pl.perski.eat.together.database.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
 @Table(name = "events")
 public class Event extends AuditModel {
+    //    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+//    @JoinColumn(name = "user_id", nullable = false)
+////    @JsonIgnore
+//    private Account account;
+    @Column(name = "creator_account_id")
+    int creatorAccountId;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-//    @NotNull
+    //    @NotNull
     @Column(name = "date")
     private Date date;
-
-//    @NotNull
+    //    @NotNull
     @Column(name = "place_name")
     private String placeName;
-
     @Column(name = "place_coord")
     private String placeCoord;
-
     @Column(name = "description")
     private String description;
-
-//    @NotNull
+    //    @NotNull
     @Column(name = "is_public")
     private Boolean isPublic;
-
     @Column(name = "status")
 //    @Column(name = "status", columnDefinition = "default '0' ")
     private int status;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
-//    @JsonIgnore
-    private Account account;
 
     public int getId() {
         return id;
@@ -97,11 +88,11 @@ public class Event extends AuditModel {
         this.status = status;
     }
 
-    public Account getAccount() {
-        return account;
+    public int getCreatorAccountId() {
+        return creatorAccountId;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
+    public void setCreatorAccountId(int creatorAccountId) {
+        this.creatorAccountId = creatorAccountId;
     }
 }

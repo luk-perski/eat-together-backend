@@ -1,7 +1,5 @@
 package pl.perski.eat.together.database.model;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
