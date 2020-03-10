@@ -1,4 +1,4 @@
-package pl.perski.eat.together.utils;
+package pl.perski.eat.together.error;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.http.HttpStatus;

@@ -21,6 +21,11 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public List<User> getAll() {
+        return userRepository.findAll();
+    }
+
+    @Override
     public User add(User user) {
         user.setUserAccount(accountRepository.save(new Account()));
         return userRepository.save(user);

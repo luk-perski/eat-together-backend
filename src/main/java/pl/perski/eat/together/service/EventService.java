@@ -7,6 +7,8 @@ import pl.perski.eat.together.database.repository.AccountRepository;
 import pl.perski.eat.together.database.repository.EventRepository;
 import pl.perski.eat.together.utils.StringUtils;
 
+import java.util.List;
+
 @Service
 public class EventService implements IEventService {
 
@@ -19,11 +21,26 @@ public class EventService implements IEventService {
     }
 
     @Override
+    public List<Event> getAll() {
+        return eventRepository.findAll();
+    }
+
+    @Override
     public Event adEvent(Event event) {
         Event savedEvent = eventRepository.save(event);
         Account account = accountRepository.findById(event.getCreatorAccountId()).get(); //todo obsługa błędu
         account.setEventHistory(StringUtils.addIdToList(account.getEventHistory(), event.getId())); //ogarnij lambdy
         accountRepository.save(account);
         return savedEvent;
+    }
+
+    @Override
+    public List<Event> getAllForToday() {
+        return null; //todo
+    }
+
+    @Override
+    public Event getOne(int eventId) {
+        return eventRepository.findById(eventId).get(); //todo
     }
 }

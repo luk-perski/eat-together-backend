@@ -1,31 +1,29 @@
 package pl.perski.eat.together.database.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
 @Table(name = "events")
 public class Event extends AuditModel {
-    //    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-//    @JoinColumn(name = "user_id", nullable = false)
-////    @JsonIgnore
-//    private Account account;
-    @Column(name = "creator_account_id")
-    int creatorAccountId;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    //    @NotNull
+    @Column(name = "creator_account_id")
+    private
+    int creatorAccountId;
+    @NotNull
     @Column(name = "date")
     private Date date;
-    //    @NotNull
+    @NotNull
     @Column(name = "place_name")
     private String placeName;
     @Column(name = "place_coord")
     private String placeCoord;
     @Column(name = "description")
     private String description;
-    //    @NotNull
+    @NotNull
     @Column(name = "is_public")
     private Boolean isPublic;
     @Column(name = "status")

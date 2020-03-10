@@ -5,6 +5,8 @@ import pl.perski.eat.together.database.model.User;
 import java.util.List;
 
 public interface IUserService {
+    List<User> getAll();
+
     User add(User user);
 
     User update(User user);

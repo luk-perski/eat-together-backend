@@ -39,4 +39,11 @@ public class AccountService implements IAccountService {
     public Account getById(int accoundId) {
         return accountRepository.findById(accoundId).get(); //todo obsługa błędu
     }
+
+    @Override
+    public Account addEventToAccount(int accountId, int eventId) {
+        Account account = accountRepository.findById(accountId).get(); //todo obsługa
+        account.addEventToHistory(eventId);
+        return accountRepository.save(account);
+    }
 }

@@ -35,9 +35,6 @@ public class User extends AuditModel {
     @JsonIgnore
     private Account userAccount;
 
-//    @Column(name = "user_groups")
-//    private String[] userGroups;
-
     public int getId() {
         return id;
     }

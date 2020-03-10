@@ -10,4 +10,6 @@ public interface IAccountService {
     List<Account> getAll();
 
     Account getById(int accountId);
+
+    Account addEventToAccount(int accountId, int eventId);
 }

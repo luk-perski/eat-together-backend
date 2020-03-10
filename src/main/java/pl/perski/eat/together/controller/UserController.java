@@ -13,17 +13,15 @@ import java.util.List;
 @RestController
 public class UserController {
 
-    private final UserRepository userRepository;
     private final IUserService userService;
 
     public UserController(UserRepository userRepository, UserService userService, AccountRepository accountRepository) {
-        this.userRepository = userRepository;
         this.userService = userService;
     }
 
     @GetMapping("/users")
     public List<User> getUsers() {
-        return userRepository.findAll();
+        return userService.getAll();
     }
 
     @PostMapping("/users")

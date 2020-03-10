@@ -37,10 +37,8 @@ public class AccountController {
     }
 
 
-//    @PutMapping("/accounts/{accountId}/{eventId}")
-//    public Account addEventToAccount (@PathVariable Long accountId, @PathVariable Long eventId){
-//        return accountRepository.findById(accountId).map(account -> {
-//            return accountRepository.
-//        }).orElseThrow(() -> new ResourceNotFoundException("Account not found with id " + accountId));
-//    }
+    @PutMapping("/accounts/{accountId}/{eventId}")
+    public Account addEventToAccount(@PathVariable int accountId, @PathVariable int eventId) {
+        return accountService.addEventToAccount(accountId, eventId);
+    }
 }
