@@ -38,17 +38,22 @@ public class AccountService implements IAccountService {
 
     @Override
     public Account getById(int accountId) {
-        Account account = accountRepository.findById(accountId).orElse(null);
-        if (account == null){
-            throw new EntityNotFoundException(Account.class, "id", Integer.toString(accountId));
-        }
+        Account account = getAccountById(accountId);
         return account;
     }
 
     @Override
     public Account addEventToAccount(int accountId, int eventId) {
-        Account account = accountRepository.findById(accountId).get(); //todo obsługa
+        Account account = getAccountById(accountId); //todo obsługa
         account.addEventToHistory(eventId);
         return accountRepository.save(account);
+    }
+
+    private Account getAccountById(int id) {
+        Account account = accountRepository.findById(id).orElse(null);
+        if (account == null) {
+            throw new EntityNotFoundException(Account.class, "id", Integer.toString(id));
+        }
+        return account;
     }
 }

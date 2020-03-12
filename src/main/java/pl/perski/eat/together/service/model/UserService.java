@@ -5,6 +5,7 @@ import pl.perski.eat.together.database.model.Account;
 import pl.perski.eat.together.database.model.User;
 import pl.perski.eat.together.database.repository.AccountRepository;
 import pl.perski.eat.together.database.repository.UserRepository;
+import pl.perski.eat.together.exeption.EntityNotFoundException;
 import pl.perski.eat.together.service.IUserService;
 
 import java.util.List;
@@ -33,20 +34,25 @@ public class UserService implements IUserService {
 
     @Override
     public User update(User user) {
-        if (userRepository.findById(user.getId()).isPresent()) {
-            return userRepository.save(user);
-        } else {
-            return null; // todo hanle error when is no user in db
-        }
+        getUserById(user.getId());
+        return userRepository.save(user);
     }
 
     @Override
     public User getById(int userId) {
-        return null;
+        return getUserById(userId);
     }
 
     @Override
     public List<User> getManyByIds(List<Integer> idList) {
         return null;
+    }
+
+    private User getUserById(int id) {
+        User user = userRepository.findById(id).orElse(null);
+        if (user == null) {
+            throw new EntityNotFoundException(User.class, "id", Integer.toString(id));
+        }
+        return user;
     }
 }
