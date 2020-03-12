@@ -2,8 +2,6 @@ package pl.perski.eat.together.controller;
 
 import org.springframework.web.bind.annotation.*;
 import pl.perski.eat.together.database.model.User;
-import pl.perski.eat.together.database.repository.AccountRepository;
-import pl.perski.eat.together.database.repository.UserRepository;
 import pl.perski.eat.together.service.IUserService;
 import pl.perski.eat.together.service.model.UserService;
 
@@ -15,7 +13,7 @@ public class UserController {
 
     private final IUserService userService;
 
-    public UserController(UserRepository userRepository, UserService userService, AccountRepository accountRepository) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 

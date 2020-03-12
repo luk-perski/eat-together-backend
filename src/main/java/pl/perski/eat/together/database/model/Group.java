@@ -17,8 +17,8 @@ public class Group extends AuditModel {
     private String name;
 
     @NotNull
-    @Column(name = "creator_ID")
-    private int creatorId;
+    @Column(name = "creator_user_ID")
+    private int creatorUserId;
 
     @Column(name = "users_ID")
     private String usersId;
@@ -40,12 +40,12 @@ public class Group extends AuditModel {
         this.name = name;
     }
 
-    public int getCreatorId() {
-        return creatorId;
+    public int getCreatorUserId() {
+        return creatorUserId;
     }
 
-    public void setCreatorId(int creatorId) {
-        this.creatorId = creatorId;
+    public void setCreatorUserId(int creatorUserId) {
+        this.creatorUserId = creatorUserId;
     }
 
     public String getUsersId() {

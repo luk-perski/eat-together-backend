@@ -3,7 +3,7 @@ package pl.perski.eat.together.service;
 import org.springframework.stereotype.Service;
 import pl.perski.eat.together.database.model.Account;
 import pl.perski.eat.together.database.model.Group;
-import pl.perski.eat.together.database.repository.AccountRepository;
+import pl.perski.eat.together.database.model.User;
 import pl.perski.eat.together.database.repository.GroupRepository;
 import pl.perski.eat.together.exeption.EntityNotFoundException;
 
@@ -13,11 +13,13 @@ import java.util.List;
 public class GroupService implements IGroupService {
 
     private final GroupRepository groupRepository;
-    private final AccountRepository accountRepository;
+    private final IUserService userService;
+    private final IAccountService accountService;
 
-    public GroupService(GroupRepository groupRepository, AccountRepository accountRepository) {
+    public GroupService(GroupRepository groupRepository, IUserService userService, IAccountService accountService) {
         this.groupRepository = groupRepository;
-        this.accountRepository = accountRepository;
+        this.userService = userService;
+        this.accountService = accountService;
     }
 
     @Override
@@ -32,30 +34,23 @@ public class GroupService implements IGroupService {
 
     @Override
     public Group add(Group group) {
-        group.addUser(1); //todo wyciąganie user id z group id
+        group.addUser(group.getCreatorUserId());
         Group addedGroup = groupRepository.save(group);
-        Account account = getAccountById(group.getCreatorId()); //todo obsługa
+        Account account = accountService.getById(group.getCreatorUserId());
         account.addGroup(addedGroup.getId());
         return addedGroup;
     }
 
     @Override
     public String addUserToGroup(int userId, int groupId) { //todo to dodaje jego samego, a jeszcze dodanie przez kogoś
-        Group group = getGroupById(groupId); //todo
+        Group group = getGroupById(groupId);
         group.addUser(userId);
         groupRepository.save(group);
-        Account account = getAccountById(1); //todo
+        User user = userService.getById(userId);
+        Account account = user.getUserAccount(); //todo
         account.addGroup(groupId);
-        accountRepository.save(account);
-        return "Added"; //todo lepszy response
-    }
-
-    private Account getAccountById(int id) {
-        Account account = accountRepository.findById(id).orElse(null);
-        if (account == null) {
-            throw new EntityNotFoundException(Account.class, "id", Integer.toString(id));
-        }
-        return account;
+        accountService.addAccount(account);
+        return String.format("Added user %s to group %s.", user.getName(), group.getName()); //
     }
 
     private Group getGroupById(int id) {

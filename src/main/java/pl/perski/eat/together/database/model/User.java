@@ -8,6 +8,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 @Builder
@@ -21,19 +22,21 @@ public class User extends AuditModel {
     private int id;
 
     @NotNull
-    @Column(name = "name")
     private String name;
 
     @Column(name = "company_name")
     private String companyName;
 
-    @Column(name = "description")
     private String description;
 
     @JoinColumn(name = "user_account_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private Account userAccount;
+
+    @Email
+    @NotNull
+    private String email;
 
     public int getId() {
         return id;

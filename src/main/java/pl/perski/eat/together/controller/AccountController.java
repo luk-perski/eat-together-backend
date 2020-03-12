@@ -2,7 +2,6 @@ package pl.perski.eat.together.controller;
 
 import org.springframework.web.bind.annotation.*;
 import pl.perski.eat.together.database.model.Account;
-import pl.perski.eat.together.database.repository.AccountRepository;
 import pl.perski.eat.together.service.AccountService;
 import pl.perski.eat.together.service.IAccountService;
 
@@ -12,12 +11,9 @@ import java.util.List;
 @RestController
 public class AccountController {
 
-    private final AccountRepository accountRepository;
-
     private final IAccountService accountService;
 
-    public AccountController(AccountRepository accountRepository, AccountService accountService) {
-        this.accountRepository = accountRepository;
+    public AccountController(AccountService accountService) {
         this.accountService = accountService;
     }
 

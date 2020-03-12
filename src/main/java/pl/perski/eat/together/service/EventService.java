@@ -29,7 +29,7 @@ public class EventService implements IEventService {
     @Override
     public Event adEvent(Event event) {
         Event savedEvent = eventRepository.save(event);
-        Account account = getAccountById(savedEvent.getCreatorAccountId()); //todo obsługa błędu
+        Account account = getAccountById(savedEvent.getCreatorAccountId());
         account.setEventHistory(StringUtils.addIdToList(account.getEventHistory(), event.getId())); //ogarnij lambdy
         accountRepository.save(account);
         return savedEvent;

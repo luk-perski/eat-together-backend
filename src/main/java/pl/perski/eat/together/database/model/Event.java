@@ -27,7 +27,7 @@ public class Event extends AuditModel {
     @Column(name = "is_public")
     private Boolean isPublic;
     @Column(name = "status")
-//    @Column(name = "status", columnDefinition = "default '0' ")
+//    @Column(name = "status", columnDefinition = "default '0' ") todo
     private int status;
 
     public int getId() {

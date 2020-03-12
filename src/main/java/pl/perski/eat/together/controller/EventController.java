@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import pl.perski.eat.together.database.model.Event;
-import pl.perski.eat.together.database.repository.EventRepository;
 import pl.perski.eat.together.service.EventService;
 import pl.perski.eat.together.service.IEventService;
 
@@ -17,7 +16,7 @@ public class EventController {
 
     private final IEventService eventService;
 
-    public EventController(EventRepository eventRepository, EventService eventService) {
+    public EventController(EventService eventService) {
         this.eventService = eventService;
     }
 

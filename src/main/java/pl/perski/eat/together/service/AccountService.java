@@ -38,13 +38,12 @@ public class AccountService implements IAccountService {
 
     @Override
     public Account getById(int accountId) {
-        Account account = getAccountById(accountId);
-        return account;
+        return getAccountById(accountId);
     }
 
     @Override
     public Account addEventToAccount(int accountId, int eventId) {
-        Account account = getAccountById(accountId); //todo obsługa
+        Account account = getAccountById(accountId);
         account.addEventToHistory(eventId);
         return accountRepository.save(account);
     }
