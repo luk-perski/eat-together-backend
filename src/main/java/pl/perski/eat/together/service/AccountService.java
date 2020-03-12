@@ -5,6 +5,7 @@ import pl.perski.eat.together.database.model.Account;
 import pl.perski.eat.together.database.model.User;
 import pl.perski.eat.together.database.repository.AccountRepository;
 import pl.perski.eat.together.database.repository.UserRepository;
+import pl.perski.eat.together.exeption.EntityNotFoundException;
 
 import java.util.List;
 
@@ -36,8 +37,12 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public Account getById(int accoundId) {
-        return accountRepository.findById(accoundId).get(); //todo obsługa błędu
+    public Account getById(int accountId) {
+        Account account = accountRepository.findById(accountId).orElse(null);
+        if (account == null){
+            throw new EntityNotFoundException(Account.class, "id", Integer.toString(accountId));
+        }
+        return account;
     }
 
     @Override
