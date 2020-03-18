@@ -14,6 +14,10 @@ public class Account extends AuditModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(name = "user_name")
+    private String userName;
+    @Column(name = "password")
+    private String password;
 
     @Column(name = "user_groups")
     private String userGroups;
@@ -40,6 +44,22 @@ public class Account extends AuditModel {
 
     public void setUserGroups(String userGroups) {
         this.userGroups = userGroups;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void addEventToHistory(int eventId) {

@@ -1,5 +1,6 @@
 package pl.perski.eat.together.service;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.perski.eat.together.database.model.Account;
 import pl.perski.eat.together.database.model.User;
@@ -13,8 +14,8 @@ import java.util.List;
 public class AccountService implements IAccountService {
 
     private final AccountRepository accountRepository;
-
     private final UserRepository userRepository;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public AccountService(AccountRepository accountRepository, UserRepository userRepository) {
         this.accountRepository = accountRepository;
@@ -23,9 +24,10 @@ public class AccountService implements IAccountService {
 
     @Override
     public Account addAccount(Account account) {
+        account.setPassword(bCryptPasswordEncoder.encode(account.getPassword()));
         Account accountCreated = accountRepository.save(account);
         userRepository.save(User.builder().
-                name("TO_CHANGE").
+                name(account.getUserName()).
                 userAccount(account).
                 build());
         return accountCreated;

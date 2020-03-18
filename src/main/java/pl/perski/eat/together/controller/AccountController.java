@@ -1,5 +1,6 @@
 package pl.perski.eat.together.controller;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import pl.perski.eat.together.database.model.Account;
 import pl.perski.eat.together.service.AccountService;
