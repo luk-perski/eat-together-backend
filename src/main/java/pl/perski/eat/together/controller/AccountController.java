@@ -1,13 +1,14 @@
 package pl.perski.eat.together.controller;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import pl.perski.eat.together.database.model.Account;
 import pl.perski.eat.together.service.AccountService;
 import pl.perski.eat.together.service.IAccountService;
 
-import javax.validation.Valid;
 import java.util.List;
+
+import static pl.perski.eat.together.utils.SecurityConstants.SIGN_UP_URL;
+
 
 @RestController
 public class AccountController {
@@ -28,11 +29,10 @@ public class AccountController {
         return accountService.getById(accountId);
     }
 
-    @PostMapping("/accounts")
-    public Account addAccount(@Valid @RequestBody Account account) {
+    @PostMapping(SIGN_UP_URL)
+    public Account addAccount( @RequestBody Account account) {
         return accountService.addAccount(account);
     }
-
 
     @PutMapping("/accounts/{accountId}/{eventId}")
     public Account addEventToAccount(@PathVariable int accountId, @PathVariable int eventId) {

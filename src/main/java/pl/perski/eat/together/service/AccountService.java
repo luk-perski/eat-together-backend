@@ -17,9 +17,10 @@ public class AccountService implements IAccountService {
     private final UserRepository userRepository;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public AccountService(AccountRepository accountRepository, UserRepository userRepository) {
+    public AccountService(AccountRepository accountRepository, UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.accountRepository = accountRepository;
         this.userRepository = userRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @Override
@@ -27,7 +28,8 @@ public class AccountService implements IAccountService {
         account.setPassword(bCryptPasswordEncoder.encode(account.getPassword()));
         Account accountCreated = accountRepository.save(account);
         userRepository.save(User.builder().
-                name(account.getUserName()).
+                name(account.getUsername()).
+                email(account.getEmail()).
                 userAccount(account).
                 build());
         return accountCreated;
