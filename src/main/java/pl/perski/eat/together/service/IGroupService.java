@@ -1,15 +1,15 @@
 package pl.perski.eat.together.service;
 
-import pl.perski.eat.together.database.model.Group;
+import pl.perski.eat.together.database.model.GroupData;
 
 import java.util.List;
 
 public interface IGroupService {
-    List<Group> getAll();
+    List<GroupData> getAll();
 
-    Group getById(int groupId);
+    GroupData getById(int groupId);
 
-    Group add(Group group);
+    GroupData add(GroupData groupData);
 
     String addUserToGroup(int userId, int groupId);
 }

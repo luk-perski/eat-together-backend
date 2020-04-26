@@ -1,8 +1,8 @@
 package pl.perski.eat.together.service;
 
 import org.springframework.stereotype.Service;
-import pl.perski.eat.together.database.model.Account;
-import pl.perski.eat.together.database.model.Event;
+import pl.perski.eat.together.database.model.AccountData;
+import pl.perski.eat.together.database.model.EventData;
 import pl.perski.eat.together.database.repository.AccountRepository;
 import pl.perski.eat.together.database.repository.EventRepository;
 import pl.perski.eat.together.exeption.EntityNotFoundException;
@@ -22,42 +22,42 @@ public class EventService implements IEventService {
     }
 
     @Override
-    public List<Event> getAll() {
+    public List<EventData> getAll() {
         return eventRepository.findAll();
     }
 
     @Override
-    public Event adEvent(Event event) {
-        Event savedEvent = eventRepository.save(event);
-        Account account = getAccountById(savedEvent.getCreatorAccountId());
-        account.setEventHistory(StringUtils.addIdToList(account.getEventHistory(), event.getId())); //ogarnij lambdy
-        accountRepository.save(account);
-        return savedEvent;
+    public EventData adEvent(EventData eventData) {
+        EventData savedEventData = eventRepository.save(eventData);
+        AccountData accountData = getAccountById(savedEventData.getCreatorAccountId());
+        accountData.setEventHistory(StringUtils.addIdToList(accountData.getEventHistory(), eventData.getId())); //ogarnij lambdy
+        accountRepository.save(accountData);
+        return savedEventData;
     }
 
     @Override
-    public List<Event> getAllForToday() {
+    public List<EventData> getAllForToday() {
         return null; //todo
     }
 
     @Override
-    public Event getOne(int eventId) {
+    public EventData getOne(int eventId) {
         return getEventById(eventId);
     }
 
-    private Event getEventById(int id) {
-        Event event = eventRepository.findById(id).orElse(null);
-        if (event == null) {
-            throw new EntityNotFoundException(Event.class, "id", Integer.toString(id));
+    private EventData getEventById(int id) {
+        EventData eventData = eventRepository.findById(id).orElse(null);
+        if (eventData == null) {
+            throw new EntityNotFoundException(EventData.class, "id", Integer.toString(id));
         }
-        return event;
+        return eventData;
     }
 
-    private Account getAccountById(int id) {
-        Account account = accountRepository.findById(id).orElse(null);
-        if (account == null) {
-            throw new EntityNotFoundException(Account.class, "id", Integer.toString(id));
+    private AccountData getAccountById(int id) {
+        AccountData accountData = accountRepository.findById(id).orElse(null);
+        if (accountData == null) {
+            throw new EntityNotFoundException(AccountData.class, "id", Integer.toString(id));
         }
-        return account;
+        return accountData;
     }
 }

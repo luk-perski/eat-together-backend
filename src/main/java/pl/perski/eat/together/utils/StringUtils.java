@@ -7,4 +7,11 @@ public class StringUtils {
         }
         return String.format("%s%d;", idList, id);
     }
+
+    public static String removeDotsFromEmail(String email){
+        int atPosition = email.indexOf('@');
+        return email.substring(0, atPosition).replace(".", "")
+                + email.substring(atPosition);
+
+    }
 }

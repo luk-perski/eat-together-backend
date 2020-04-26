@@ -2,11 +2,12 @@ package pl.perski.eat.together.service;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.perski.eat.together.database.model.Account;
-import pl.perski.eat.together.database.model.User;
+import pl.perski.eat.together.database.model.AccountData;
 import pl.perski.eat.together.database.repository.AccountRepository;
 import pl.perski.eat.together.database.repository.UserRepository;
 import pl.perski.eat.together.exeption.EntityNotFoundException;
+import pl.perski.eat.together.service.model.AddAccountData;
+import pl.perski.eat.together.utils.StringUtils;
 
 import java.util.List;
 
@@ -24,39 +25,38 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public Account addAccount(Account account) {
-        account.setPassword(bCryptPasswordEncoder.encode(account.getPassword()));
-        Account accountCreated = accountRepository.save(account);
-        userRepository.save(User.builder().
-                name(account.getUsername()).
-                email(account.getEmail()).
-                userAccount(account).
-                build());
-        return accountCreated;
+    public AddAccountData addAccount(AddAccountData addAccountData) {
+        AccountData accountData = addAccountData.getAccountData();
+        accountData.setUserData(userRepository.save(addAccountData.getUserData()));
+        accountData.setEmail(StringUtils.removeDotsFromEmail(accountData.getEmail()));
+        accountData.setPassword(bCryptPasswordEncoder.encode(accountData.getPassword()));
+        accountRepository.save(accountData);
+        addAccountData.getAccountData().setPassword("");
+        return addAccountData;
     }
 
     @Override
-    public List<Account> getAll() {
+    public List<AccountData> getAll() {
         return accountRepository.findAll();
     }
 
     @Override
-    public Account getById(int accountId) {
+    public AccountData getById(int accountId) {
         return getAccountById(accountId);
     }
 
     @Override
-    public Account addEventToAccount(int accountId, int eventId) {
-        Account account = getAccountById(accountId);
-        account.addEventToHistory(eventId);
-        return accountRepository.save(account);
+    public AccountData addEventToAccount(int accountId, int eventId) {
+        AccountData accountData = getAccountById(accountId);
+        accountData.addEventToHistory(eventId);
+        return accountRepository.save(accountData);
     }
 
-    private Account getAccountById(int id) {
-        Account account = accountRepository.findById(id).orElse(null);
-        if (account == null) {
-            throw new EntityNotFoundException(Account.class, "id", Integer.toString(id));
+    private AccountData getAccountById(int id) {
+        AccountData accountData = accountRepository.findById(id).orElse(null);
+        if (accountData == null) {
+            throw new EntityNotFoundException(AccountData.class, "id", Integer.toString(id));
         }
-        return account;
+        return accountData;
     }
 }

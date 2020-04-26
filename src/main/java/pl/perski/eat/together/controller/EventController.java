@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import pl.perski.eat.together.database.model.Event;
+import pl.perski.eat.together.database.model.EventData;
 import pl.perski.eat.together.service.EventService;
 import pl.perski.eat.together.service.IEventService;
 
@@ -21,12 +21,12 @@ public class EventController {
     }
 
     @GetMapping(value = "/events", consumes = "application/json")
-    public List<Event> getAllEvents() {
+    public List<EventData> getAllEvents() {
         return eventService.getAll();
     }
 
     @PostMapping(value = "/events", consumes = "application/json", produces = "application/json")
-    public Event addEvent(@Valid @RequestBody Event request) {
+    public EventData addEvent(@Valid @RequestBody EventData request) {
         return eventService.adEvent(request);
     }
 }

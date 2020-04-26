@@ -1,9 +1,10 @@
 package pl.perski.eat.together.service;
 
 import org.springframework.stereotype.Service;
-import pl.perski.eat.together.database.model.Account;
-import pl.perski.eat.together.database.model.Group;
-import pl.perski.eat.together.database.model.User;
+import pl.perski.eat.together.database.model.AccountData;
+import pl.perski.eat.together.database.model.GroupData;
+import pl.perski.eat.together.database.model.UserData;
+import pl.perski.eat.together.database.repository.AccountRepository;
 import pl.perski.eat.together.database.repository.GroupRepository;
 import pl.perski.eat.together.exeption.EntityNotFoundException;
 
@@ -15,49 +16,52 @@ public class GroupService implements IGroupService {
     private final GroupRepository groupRepository;
     private final IUserService userService;
     private final IAccountService accountService;
+    private final AccountRepository accountRepository;
 
-    public GroupService(GroupRepository groupRepository, IUserService userService, IAccountService accountService) {
+    public GroupService(GroupRepository groupRepository, IUserService userService, IAccountService accountService, AccountRepository accountRepository) {
         this.groupRepository = groupRepository;
         this.userService = userService;
         this.accountService = accountService;
+        this.accountRepository = accountRepository;
     }
 
     @Override
-    public List<Group> getAll() {
+    public List<GroupData> getAll() {
         return groupRepository.findAll();
     }
 
     @Override
-    public Group getById(int groupId) {
+    public GroupData getById(int groupId) {
         return getGroupById(groupId);
     }
 
     @Override
-    public Group add(Group group) {
-        group.addUser(group.getCreatorUserId());
-        Group addedGroup = groupRepository.save(group);
-        Account account = accountService.getById(group.getCreatorUserId());
-        account.addGroup(addedGroup.getId());
-        return addedGroup;
+    public GroupData add(GroupData groupData) {
+        groupData.addUser(groupData.getCreatorUserId());
+        GroupData addedGroupData = groupRepository.save(groupData);
+        AccountData accountData = accountService.getById(groupData.getCreatorUserId());
+        accountData.addGroup(addedGroupData.getId());
+        return addedGroupData;
     }
 
     @Override
     public String addUserToGroup(int userId, int groupId) { //todo to dodaje jego samego, a jeszcze dodanie przez kogoś
-        Group group = getGroupById(groupId);
-        group.addUser(userId);
-        groupRepository.save(group);
-        User user = userService.getById(userId);
-        Account account = user.getUserAccount(); //todo
-        account.addGroup(groupId);
-        accountService.addAccount(account);
-        return String.format("Added user %s to group %s.", user.getName(), group.getName()); //
+        GroupData groupData = getGroupById(groupId);
+        groupData.addUser(userId);
+        groupRepository.save(groupData);
+        UserData userData = userService.getById(userId);
+        //todo!!!
+//        AccountData accountData = accountRepository.findByUserId;
+//        accountData.addGroup(groupId);
+//        accountService.addAccount(accountData);
+        return String.format("Added user %s to group %s.", userData.getName(), groupData.getName()); //
     }
 
-    private Group getGroupById(int id) {
-        Group group = groupRepository.findById(id).orElse(null);
-        if (group == null) {
-            throw new EntityNotFoundException(Group.class, "id", Integer.toString(id));
+    private GroupData getGroupById(int id) {
+        GroupData groupData = groupRepository.findById(id).orElse(null);
+        if (groupData == null) {
+            throw new EntityNotFoundException(GroupData.class, "id", Integer.toString(id));
         }
-        return group;
+        return groupData;
     }
 }

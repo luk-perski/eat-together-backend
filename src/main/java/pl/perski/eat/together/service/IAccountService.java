@@ -1,15 +1,16 @@
 package pl.perski.eat.together.service;
 
-import pl.perski.eat.together.database.model.Account;
+import pl.perski.eat.together.database.model.AccountData;
+import pl.perski.eat.together.service.model.AddAccountData;
 
 import java.util.List;
 
 public interface IAccountService {
-    Account addAccount(Account account);
+    AddAccountData addAccount(AddAccountData accountData);
 
-    List<Account> getAll();
+    List<AccountData> getAll();
 
-    Account getById(int accountId);
+    AccountData getById(int accountId);
 
-    Account addEventToAccount(int accountId, int eventId);
+    AccountData addEventToAccount(int accountId, int eventId);
 }

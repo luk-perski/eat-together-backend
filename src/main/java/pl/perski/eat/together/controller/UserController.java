@@ -1,9 +1,9 @@
 package pl.perski.eat.together.controller;
 
 import org.springframework.web.bind.annotation.*;
-import pl.perski.eat.together.database.model.User;
+import pl.perski.eat.together.database.model.UserData;
 import pl.perski.eat.together.service.IUserService;
-import pl.perski.eat.together.service.model.UserService;
+import pl.perski.eat.together.service.UserService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -18,17 +18,17 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public List<User> getUsers() {
+    public List<UserData> getUsers() {
         return userService.getAll();
     }
 
-    @PostMapping("/users")
-    public User add(@Valid @RequestBody User user) {
-        return userService.add(user);
-    }
+//    @PostMapping("/users")
+//    public UserData add(@Valid @RequestBody UserData userData) {
+//        return userService.add(userData);
+//    }
 
     @PutMapping("/users")
-    public User update(@Valid @RequestBody User user) {
-        return userService.update(user);
+    public UserData update(@Valid @RequestBody UserData userData) {
+        return userService.update(userData);
     }
 }

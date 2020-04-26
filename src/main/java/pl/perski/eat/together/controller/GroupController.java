@@ -2,7 +2,7 @@ package pl.perski.eat.together.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import pl.perski.eat.together.database.model.Group;
+import pl.perski.eat.together.database.model.GroupData;
 import pl.perski.eat.together.service.GroupService;
 import pl.perski.eat.together.service.IGroupService;
 
@@ -18,13 +18,13 @@ public class GroupController {
     }
 
     @GetMapping("/groups")
-    public List<Group> getAllGroups() {
+    public List<GroupData> getAllGroups() {
         return groupService.getAll();
     }
 
     @PostMapping("/groups")
-    public Group addGroup(@Valid @RequestBody Group group) {
-        return groupService.add(group);
+    public GroupData addGroup(@Valid @RequestBody GroupData groupData) {
+        return groupService.add(groupData);
     }
 
     @PatchMapping("/groups/{groupId}/{userId}")

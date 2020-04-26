@@ -9,7 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import pl.perski.eat.together.database.model.Account;
+import pl.perski.eat.together.database.model.AccountData;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -34,12 +34,12 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationException {
         try {
-            Account creds = new ObjectMapper()
-                    .readValue(req.getInputStream(), Account.class);
+            AccountData creds = new ObjectMapper()
+                    .readValue(req.getInputStream(), AccountData.class);
 
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            creds.getUsername(),
+                            creds.getEmail(),
                             creds.getPassword(),
                             new ArrayList<>())
             );

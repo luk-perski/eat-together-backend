@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "groups")
-public class Group extends AuditModel {
+public class GroupData extends AuditModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

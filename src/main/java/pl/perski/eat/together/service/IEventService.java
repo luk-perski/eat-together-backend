@@ -1,15 +1,15 @@
 package pl.perski.eat.together.service;
 
-import pl.perski.eat.together.database.model.Event;
+import pl.perski.eat.together.database.model.EventData;
 
 import java.util.List;
 
 public interface IEventService {
-    List<Event> getAll();
+    List<EventData> getAll();
 
-    Event adEvent(Event event);
+    EventData adEvent(EventData eventData);
 
-    List<Event> getAllForToday();
+    List<EventData> getAllForToday();
 
-    Event getOne(int eventId);
+    EventData getOne(int eventId);
 }

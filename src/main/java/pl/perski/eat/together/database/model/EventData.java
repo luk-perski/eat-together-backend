@@ -6,7 +6,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "events")
-public class Event extends AuditModel {
+public class EventData extends AuditModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

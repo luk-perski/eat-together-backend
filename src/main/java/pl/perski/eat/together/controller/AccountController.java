@@ -1,9 +1,11 @@
 package pl.perski.eat.together.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import pl.perski.eat.together.database.model.Account;
+import pl.perski.eat.together.database.model.AccountData;
 import pl.perski.eat.together.service.AccountService;
 import pl.perski.eat.together.service.IAccountService;
+import pl.perski.eat.together.service.model.AddAccountData;
 
 import java.util.List;
 
@@ -20,22 +22,23 @@ public class AccountController {
     }
 
     @GetMapping("/accounts")
-    public List<Account> getAccounts() {
+    public List<AccountData> getAccounts() {
         return accountService.getAll();
     }
 
     @GetMapping("/accounts/{accountId}")
-    public Account getAccountById(@PathVariable int accountId) {
+    public AccountData getAccountById(@PathVariable int accountId) {
         return accountService.getById(accountId);
     }
 
     @PostMapping(SIGN_UP_URL)
-    public Account addAccount( @RequestBody Account account) {
-        return accountService.addAccount(account);
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public AddAccountData addAccount(@RequestBody AddAccountData addAccountData) {
+        return accountService.addAccount(addAccountData);
     }
 
     @PutMapping("/accounts/{accountId}/{eventId}")
-    public Account addEventToAccount(@PathVariable int accountId, @PathVariable int eventId) {
+    public AccountData addEventToAccount(@PathVariable int accountId, @PathVariable int eventId) {
         return accountService.addEventToAccount(accountId, eventId);
     }
 }

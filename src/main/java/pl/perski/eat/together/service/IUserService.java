@@ -1,17 +1,17 @@
 package pl.perski.eat.together.service;
 
-import pl.perski.eat.together.database.model.User;
+import pl.perski.eat.together.database.model.UserData;
 
 import java.util.List;
 
 public interface IUserService {
-    List<User> getAll();
+    List<UserData> getAll();
 
-    User add(User user);
+//    UserData add(UserData userData);
 
-    User update(User user);
+    UserData update(UserData userData);
 
-    User getById(int userId);
+    UserData getById(int userId);
 
-    List<User> getManyByIds(List<Integer> idList);
+    List<UserData> getManyByIds(List<Integer> idList);
 }
