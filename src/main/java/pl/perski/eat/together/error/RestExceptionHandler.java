@@ -23,6 +23,8 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import pl.perski.eat.together.exeption.EntityNotFoundException;
 
+import java.util.Objects;
+
 import static org.springframework.http.HttpStatus.*;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -156,11 +158,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     /**
      * Handle NoHandlerFoundException.
      *
-     * @param ex
-     * @param headers
-     * @param status
-     * @param request
-     * @return
+     * @param ex      NoHandlerFoundException
+     * @param headers HttpHeaders
+     * @param status  HttpStatus
+     * @param request WebRequest
+     * @return the ApiError object
      */
     @Override
     protected ResponseEntity<Object> handleNoHandlerFoundException(
@@ -204,13 +206,13 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex,
                                                                       WebRequest request) {
         ApiError apiError = new ApiError(BAD_REQUEST);
-        apiError.setMessage(String.format("The parameter '%s' of value '%s' could not be converted to type '%s'", ex.getName(), ex.getValue(), ex.getRequiredType().getSimpleName()));
+        apiError.setMessage(String.format("The parameter '%s' of value '%s' could not be converted to type '%s'", ex.getName(), ex.getValue(), Objects.requireNonNull(ex.getRequiredType()).getSimpleName()));
         apiError.setDebugMessage(ex.getMessage());
         return buildResponseEntity(apiError);
     }
 
     @ExceptionHandler(TokenExpiredException.class)//todo
-    protected ResponseEntity<Object> handleTokenExpired(TokenExpiredException ex, WebRequest request){
+    protected ResponseEntity<Object> handleTokenExpired(TokenExpiredException ex, WebRequest request) {
         ApiError apiError = new ApiError(FORBIDDEN);
         apiError.setMessage("odśwież token!" + ex.getMessage());
         apiError.setDebugMessage(ex.getMessage());

@@ -11,7 +11,6 @@ import java.util.List;
 
 import static pl.perski.eat.together.utils.SecurityConstants.SIGN_UP_URL;
 
-
 @RestController
 public class AccountController {
 
@@ -32,13 +31,8 @@ public class AccountController {
     }
 
     @PostMapping(SIGN_UP_URL)
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.CREATED)
     public AddAccountData addAccount(@RequestBody AddAccountData addAccountData) {
         return accountService.addAccount(addAccountData);
-    }
-
-    @PutMapping("/accounts/{accountId}/{eventId}")
-    public AccountData addEventToAccount(@PathVariable int accountId, @PathVariable int eventId) {
-        return accountService.addEventToAccount(accountId, eventId);
     }
 }

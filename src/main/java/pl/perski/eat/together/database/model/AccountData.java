@@ -10,14 +10,13 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
-@Getter
-@Setter
+@EqualsAndHashCode(callSuper = true)
+@Data
 @Entity
 @Builder
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "accounts", uniqueConstraints={@UniqueConstraint(columnNames = "email")})
+@Table(name = "accounts", uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
 public class AccountData extends AuditModel {
 
     @Column(name = "event_history")
@@ -30,8 +29,6 @@ public class AccountData extends AuditModel {
     @NotNull
     @Column(name = "password")
     private String password;
-
-
     @Email
     @NotNull
     private String email;
@@ -45,63 +42,15 @@ public class AccountData extends AuditModel {
     @JsonIgnore
     private UserData userData;
 
-//    public int getId() {
-//        return id;
-//    }
-//
-//    public void setId(int id) {
-//        this.id = id;
-//    }
-//
-//    public String getEventHistory() {
-//        return eventHistory;
-//    }
-//
-//    public void setEventHistory(String eventHistory) {
-//        this.eventHistory = eventHistory;
-//    }
-//
-//    public String getUserGroups() {
-//        return userGroups;
-//    }
-//
-//    public void setUserGroups(String userGroups) {
-//        this.userGroups = userGroups;
-//    }
-//
-//    public String getUsername() {
-//        return username;
-//    }
-//
-//    public void setUsername(String username) {
-//        this.username = username;
-//    }
-//
-//    public String getPassword() {
-//        return password;
-//    }
-//
-//    public void setPassword(String password) {
-//        this.password = password;
-//    }
-
     public void addEventToHistory(int eventId) {
-        StringUtils.addIdToList(eventHistory, eventId);
+        eventHistory = StringUtils.addIdToList(eventHistory, eventId);
     }
 
-    public void addGroup(int groupdId) {
-        StringUtils.addIdToList(userGroups, groupdId);
+    public void removeEventFromHistory(int eventId) {
+        eventHistory = StringUtils.removeIdFromList(eventHistory, eventId);
     }
 
-//    @Override
-//    public String toString() {
-//        return "Account{" +
-//                "eventHistory='" + eventHistory + '\'' +
-//                ", id=" + id +
-//                ", username='" + username + '\'' +
-//                ", password='" + password + '\'' +
-//                ", email='" + email + '\'' +
-//                ", userGroups='" + userGroups + '\'' +
-//                '}';
-//    }
+    public void addGroup(int groupId) {
+        StringUtils.addIdToList(userGroups, groupId);
+    }
 }

@@ -11,6 +11,4 @@ public interface IAccountService {
     List<AccountData> getAll();
 
     AccountData getById(int accountId);
-
-    AccountData addEventToAccount(int accountId, int eventId);
 }

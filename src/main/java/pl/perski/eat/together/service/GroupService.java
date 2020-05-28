@@ -3,7 +3,6 @@ package pl.perski.eat.together.service;
 import org.springframework.stereotype.Service;
 import pl.perski.eat.together.database.model.AccountData;
 import pl.perski.eat.together.database.model.GroupData;
-import pl.perski.eat.together.database.model.UserData;
 import pl.perski.eat.together.database.repository.AccountRepository;
 import pl.perski.eat.together.database.repository.GroupRepository;
 import pl.perski.eat.together.exeption.EntityNotFoundException;
@@ -45,16 +44,14 @@ public class GroupService implements IGroupService {
     }
 
     @Override
-    public String addUserToGroup(int userId, int groupId) { //todo to dodaje jego samego, a jeszcze dodanie przez kogoś
+    public String addUserToGroup(int userId, int groupId) {
         GroupData groupData = getGroupById(groupId);
         groupData.addUser(userId);
         groupRepository.save(groupData);
-        UserData userData = userService.getById(userId);
-        //todo!!!
-//        AccountData accountData = accountRepository.findByUserId;
-//        accountData.addGroup(groupId);
-//        accountService.addAccount(accountData);
-        return String.format("Added user %s to group %s.", userData.getName(), groupData.getName()); //
+        AccountData accountData = accountRepository.findAccountByUserData(userId);
+        accountData.addGroup(groupId);
+        accountRepository.save(accountData);
+        return String.format("Added user %s to group %s.", accountData.getUserData().getFirstName(), groupData.getName());
     }
 
     private GroupData getGroupById(int id) {

@@ -1,12 +1,12 @@
 package pl.perski.eat.together.database.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+@EqualsAndHashCode(callSuper = true)
+@Data
 @Builder
 @Entity
 @AllArgsConstructor
@@ -16,42 +16,20 @@ public class UserData extends AuditModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(name = "first_name")
     @NotNull
-    private String name;
+    private String firstName;
+    @Column(name = "last_name")
+    private String lastName;
+    @NotNull
     @Column(name = "company_name")
     private String companyName;
     private String description;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCompanyName() {
-        return companyName;
-    }
-
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    @NotNull
+    private double userLocationLongitude;
+    @NotNull
+    private double userLocationLatitude;
+    @NotNull
+    private String userLocationAddress;
 
 }

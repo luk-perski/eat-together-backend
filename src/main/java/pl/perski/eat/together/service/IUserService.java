@@ -7,11 +7,11 @@ import java.util.List;
 public interface IUserService {
     List<UserData> getAll();
 
-//    UserData add(UserData userData);
-
-    UserData update(UserData userData);
+    UserData update(UserData userData, String accountEmail);
 
     UserData getById(int userId);
 
     List<UserData> getManyByIds(List<Integer> idList);
+
+    UserData getByAccountEmail(String name);
 }

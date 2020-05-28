@@ -1,18 +1,27 @@
 package pl.perski.eat.together.database.model;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import pl.perski.eat.together.utils.StringUtils;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
+@EqualsAndHashCode(callSuper = true)
+@Data
 @Entity
 @Table(name = "events")
 public class EventData extends AuditModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @NotNull
     @Column(name = "creator_account_id")
     private
     int creatorAccountId;
+    @Column(name = "creator_name")
+    private String creatorName;
     @NotNull
     @Column(name = "date")
     private Date date;
@@ -21,76 +30,27 @@ public class EventData extends AuditModel {
     private String placeName;
     @Column(name = "place_coord")
     private String placeCoord;
+    @Column(name = "place_location")
+    private String placeLocation;
     @Column(name = "description")
     private String description;
-    @NotNull
     @Column(name = "is_public")
     private Boolean isPublic;
     @Column(name = "status")
-//    @Column(name = "status", columnDefinition = "default '0' ") todo
+    @NotNull
     private int status;
+    private String participants;
+    @Transient
+    private boolean callerJoin;
+    @Transient
+    private boolean callerIsCreator;
 
-    public int getId() {
-        return id;
+
+    public void addUser(int userId) {
+        participants = StringUtils.addIdToList(participants, userId);
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public String getPlaceName() {
-        return placeName;
-    }
-
-    public void setPlaceName(String placeName) {
-        this.placeName = placeName;
-    }
-
-    public String getPlaceCoord() {
-        return placeCoord;
-    }
-
-    public void setPlaceCoord(String placeCoord) {
-        this.placeCoord = placeCoord;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Boolean getPublic() {
-        return isPublic;
-    }
-
-    public void setPublic(Boolean aPublic) {
-        isPublic = aPublic;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public int getCreatorAccountId() {
-        return creatorAccountId;
-    }
-
-    public void setCreatorAccountId(int creatorAccountId) {
-        this.creatorAccountId = creatorAccountId;
+    public void removeUser(int userId) {
+        participants = StringUtils.removeIdFromList(participants, userId);
     }
 }

@@ -1,6 +1,7 @@
 package pl.perski.eat.together.service;
 
 import org.springframework.stereotype.Service;
+import pl.perski.eat.together.database.model.AccountData;
 import pl.perski.eat.together.database.model.UserData;
 import pl.perski.eat.together.database.repository.AccountRepository;
 import pl.perski.eat.together.database.repository.UserRepository;
@@ -24,15 +25,10 @@ public class UserService implements IUserService {
         return userRepository.findAll();
     }
 
-//    @Override
-//    public UserData add(UserData userData) {
-//        userData.setUserAccountData(accountRepository.save(new AccountData()));
-//        return userRepository.save(userData);
-//    }
-
     @Override
-    public UserData update(UserData userData) {
-        getUserById(userData.getId());
+    public UserData update(UserData userData, String accountEmail) {
+        AccountData accountData = accountRepository.findAccountByEmail(accountEmail);
+        userData.setId(accountData.getUserData().getId());
         return userRepository.save(userData);
     }
 
@@ -44,6 +40,11 @@ public class UserService implements IUserService {
     @Override
     public List<UserData> getManyByIds(List<Integer> idList) {
         return null;
+    }
+
+    @Override
+    public UserData getByAccountEmail(String email) {
+        return accountRepository.findAccountByEmail(email).getUserData();
     }
 
     private UserData getUserById(int id) {

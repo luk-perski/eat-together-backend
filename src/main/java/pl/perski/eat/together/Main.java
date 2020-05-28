@@ -8,8 +8,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @EnableJpaAuditing
 @SpringBootApplication
-//@ComponentScan(basePackages = {"pl.perski.eat.together.service", "pl.perski.eat.together.controller"})
-
 public class Main {
 
     public static void main(String[] args) {

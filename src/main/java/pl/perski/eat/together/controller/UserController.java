@@ -1,5 +1,6 @@
 package pl.perski.eat.together.controller;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import pl.perski.eat.together.database.model.UserData;
 import pl.perski.eat.together.service.IUserService;
@@ -22,13 +23,18 @@ public class UserController {
         return userService.getAll();
     }
 
-//    @PostMapping("/users")
-//    public UserData add(@Valid @RequestBody UserData userData) {
-//        return userService.add(userData);
-//    }
+    @GetMapping("/users/{userId}")
+    public UserData getUserById(@PathVariable int userId) {
+        return userService.getById(userId);
+    }
 
-    @PutMapping("/users")
-    public UserData update(@Valid @RequestBody UserData userData) {
-        return userService.update(userData);
+    @GetMapping("/users/account")
+    public UserData getUserByAccountEmail(Authentication authentication) {
+        return userService.getByAccountEmail(authentication.getName());
+    }
+
+    @PatchMapping("/users")
+    public UserData update(@Valid @RequestBody UserData userData, Authentication authentication) {
+        return userService.update(userData, authentication.getName());
     }
 }

@@ -45,17 +45,18 @@ public class AccountService implements IAccountService {
         return getAccountById(accountId);
     }
 
-    @Override
-    public AccountData addEventToAccount(int accountId, int eventId) {
-        AccountData accountData = getAccountById(accountId);
-        accountData.addEventToHistory(eventId);
-        return accountRepository.save(accountData);
-    }
-
     private AccountData getAccountById(int id) {
         AccountData accountData = accountRepository.findById(id).orElse(null);
         if (accountData == null) {
             throw new EntityNotFoundException(AccountData.class, "id", Integer.toString(id));
+        }
+        return accountData;
+    }
+
+    private AccountData getAccountByEmail(String email) {
+        AccountData accountData = accountRepository.findAccountByEmail(email);
+        if (accountData == null) {
+            throw new EntityNotFoundException(AccountData.class, "email", email);
         }
         return accountData;
     }
