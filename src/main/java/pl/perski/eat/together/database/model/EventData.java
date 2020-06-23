@@ -16,7 +16,6 @@ public class EventData extends AuditModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @NotNull
     @Column(name = "creator_account_id")
     private
     int creatorAccountId;

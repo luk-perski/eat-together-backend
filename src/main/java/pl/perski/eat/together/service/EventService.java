@@ -3,8 +3,10 @@ package pl.perski.eat.together.service;
 import org.springframework.stereotype.Service;
 import pl.perski.eat.together.database.model.AccountData;
 import pl.perski.eat.together.database.model.EventData;
+import pl.perski.eat.together.database.model.UserData;
 import pl.perski.eat.together.database.repository.AccountRepository;
 import pl.perski.eat.together.database.repository.EventRepository;
+import pl.perski.eat.together.database.repository.UserRepository;
 import pl.perski.eat.together.exeption.AccessDeniedException;
 import pl.perski.eat.together.exeption.EntityNotFoundException;
 import pl.perski.eat.together.utils.Enums;
@@ -18,16 +20,19 @@ public class EventService implements IEventService {
 
     private final EventRepository eventRepository;
     private final AccountRepository accountRepository;
+    private final UserRepository userRepository;
 
-    public EventService(EventRepository eventRepository, AccountRepository accountRepository) {
+    public EventService(EventRepository eventRepository, AccountRepository accountRepository, UserRepository userRepository) {
         this.eventRepository = eventRepository;
         this.accountRepository = accountRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
     public List<EventData> getAll(String email) {
         List<EventData> eventDataList = eventRepository.findAll();
         setJoin(eventDataList, email);
+        translateParticipants(eventDataList);
         return eventDataList;
     }
 
@@ -35,6 +40,7 @@ public class EventService implements IEventService {
     public List<EventData> getAllActiveFromNow(String email) {
         List<EventData> eventDataList = eventRepository.findAllWithEventDateAfterNow();
         setJoin(eventDataList, email);
+        translateParticipants(eventDataList);
         return eventDataList;
     }
 
@@ -162,5 +168,21 @@ public class EventService implements IEventService {
         return getAccountByEmail(email).getId();
     }
 
+    private void translateParticipants(List<EventData> eventDataList) {
+        for (EventData x : eventDataList) {
+            String names = "";
+            for (String participant : x.getParticipants().split(";")) {
+                if (!participant.isEmpty()) {
+                    UserData userData = userRepository.getOne(Integer.parseInt(participant));
+                    if (names.length() > 1) {
+                        names = names + "\n";
+                    }
+                    names = String.format("%s%s %s (%s)", names, userData.getFirstName(), userData.getLastName(), userData.getCompanyName());
+                }
+            }
+            x.setParticipants(names);
+        }
+    }
 
 }
+//String.format("%s%s %s (%s)", names[0], userData.getFirstName(), userData.getLastName(), userData.getCompanyName());
