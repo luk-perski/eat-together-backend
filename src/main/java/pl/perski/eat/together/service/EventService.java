@@ -1,5 +1,6 @@
 package pl.perski.eat.together.service;
 
+import org.apache.tomcat.jni.Time;
 import org.springframework.stereotype.Service;
 import pl.perski.eat.together.database.model.AccountData;
 import pl.perski.eat.together.database.model.EventData;
@@ -39,8 +40,10 @@ public class EventService implements IEventService {
     @Override
     public List<EventData> getAllActiveFromNow(String email) {
         List<EventData> eventDataList = eventRepository.findAllWithEventDateAfterNow();
-        setJoin(eventDataList, email);
-        translateParticipants(eventDataList);
+        if (eventDataList != null) {
+            setJoin(eventDataList, email);
+            translateParticipants(eventDataList);
+        }
         return eventDataList;
     }
 
@@ -149,8 +152,10 @@ public class EventService implements IEventService {
     private void setJoin(List<EventData> eventDataList, String email) {
         AccountData accountData = getAccountByEmail(email);
         for (EventData x : eventDataList) {
-            x.setCallerJoin(StringUtils.checkIfListContainsId(x.getParticipants(), accountData.getUserData().getId()));
-            x.setCallerIsCreator(x.getCreatorAccountId() == accountData.getId());
+            if (x.getParticipants() != null) {
+                x.setCallerJoin(StringUtils.checkIfListContainsId(x.getParticipants(), accountData.getUserData().getId()));
+                x.setCallerIsCreator(x.getCreatorAccountId() == accountData.getId());
+            }
         }
     }
 
@@ -170,17 +175,19 @@ public class EventService implements IEventService {
 
     private void translateParticipants(List<EventData> eventDataList) {
         for (EventData x : eventDataList) {
-            String names = "";
-            for (String participant : x.getParticipants().split(";")) {
-                if (!participant.isEmpty()) {
-                    UserData userData = userRepository.getOne(Integer.parseInt(participant));
-                    if (names.length() > 1) {
-                        names = names + "\n";
+            if (x.getParticipants() != null) {
+                String names = "";
+                for (String participant : x.getParticipants().split(";")) {
+                    if (!participant.isEmpty()) {
+                        UserData userData = userRepository.getOne(Integer.parseInt(participant));
+                        if (names.length() > 1) {
+                            names = names + "\n";
+                        }
+                        names = String.format("%s%s %s (%s)", names, userData.getFirstName(), userData.getLastName(), userData.getCompanyName());
                     }
-                    names = String.format("%s%s %s (%s)", names, userData.getFirstName(), userData.getLastName(), userData.getCompanyName());
                 }
+                x.setParticipants(names);
             }
-            x.setParticipants(names);
         }
     }
 

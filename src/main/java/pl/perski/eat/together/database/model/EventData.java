@@ -1,7 +1,6 @@
 package pl.perski.eat.together.database.model;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import pl.perski.eat.together.utils.StringUtils;
 
 import javax.persistence.*;
@@ -11,6 +10,9 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "events")
 public class EventData extends AuditModel {
     @Id
@@ -27,8 +29,10 @@ public class EventData extends AuditModel {
     @NotNull
     @Column(name = "place_name")
     private String placeName;
-    @Column(name = "place_coord")
-    private String placeCoord;
+    @NotNull
+    private double locationLongitude;
+    @NotNull
+    private double locationLatitude;
     @Column(name = "place_location")
     private String placeLocation;
     @Column(name = "description")
@@ -36,6 +40,7 @@ public class EventData extends AuditModel {
     @Column(name = "is_public")
     private Boolean isPublic;
     @Column(name = "status")
+    //todo change to ENUM
     @NotNull
     private int status;
     private String participants;
@@ -43,7 +48,6 @@ public class EventData extends AuditModel {
     private boolean callerJoin;
     @Transient
     private boolean callerIsCreator;
-
 
     public void addUser(int userId) {
         participants = StringUtils.addIdToList(participants, userId);
