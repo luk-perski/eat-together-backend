@@ -1,6 +1,5 @@
 package pl.perski.eat.together.service;
 
-import org.apache.tomcat.jni.Time;
 import org.springframework.stereotype.Service;
 import pl.perski.eat.together.database.model.AccountData;
 import pl.perski.eat.together.database.model.EventData;

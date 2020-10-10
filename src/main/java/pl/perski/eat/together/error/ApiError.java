@@ -19,7 +19,6 @@ import java.util.Set;
 @Data
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.CUSTOM, property = "error", visible = true)
 @JsonTypeIdResolver(LowerCaseClassNameResolver.class)
-public
 class ApiError {
 
     private HttpStatus status;
@@ -33,19 +32,19 @@ class ApiError {
         timestamp = LocalDateTime.now();
     }
 
-    public ApiError(HttpStatus status) {
+    ApiError(HttpStatus status) {
         this();
         this.status = status;
     }
 
-    public ApiError(HttpStatus status, Throwable ex) {
+    ApiError(HttpStatus status, Throwable ex) {
         this();
         this.status = status;
         this.message = "Unexpected error";
         this.debugMessage = ex.getLocalizedMessage();
     }
 
-    public ApiError(HttpStatus status, String message, Throwable ex) {
+    ApiError(HttpStatus status, String message, Throwable ex) {
         this();
         this.status = status;
         this.message = message;
@@ -75,7 +74,7 @@ class ApiError {
                 fieldError.getDefaultMessage());
     }
 
-    public void addValidationErrors(List<FieldError> fieldErrors) {
+    void addValidationErrors(List<FieldError> fieldErrors) {
         fieldErrors.forEach(this::addValidationError);
     }
 
@@ -85,7 +84,7 @@ class ApiError {
                 objectError.getDefaultMessage());
     }
 
-    public void addValidationError(List<ObjectError> globalErrors) {
+    void addValidationError(List<ObjectError> globalErrors) {
         globalErrors.forEach(this::addValidationError);
     }
 
@@ -102,7 +101,7 @@ class ApiError {
                 cv.getMessage());
     }
 
-    public void addValidationErrors(Set<ConstraintViolation<?>> constraintViolations) {
+    void addValidationErrors(Set<ConstraintViolation<?>> constraintViolations) {
         constraintViolations.forEach(this::addValidationError);
     }
 
