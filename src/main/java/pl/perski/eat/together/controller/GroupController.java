@@ -1,5 +1,6 @@
 package pl.perski.eat.together.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import pl.perski.eat.together.database.model.GroupData;
@@ -9,6 +10,7 @@ import pl.perski.eat.together.service.IGroupService;
 import javax.validation.Valid;
 import java.util.List;
 
+@Tag(name = "groups", description = "the Group API")
 @Controller
 public class GroupController {
     private final IGroupService groupService;

@@ -1,5 +1,7 @@
 package pl.perski.eat.together.controller;
 
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import pl.perski.eat.together.database.model.UserData;
@@ -9,6 +11,7 @@ import pl.perski.eat.together.service.UserService;
 import javax.validation.Valid;
 import java.util.List;
 
+@Tag(name = "groups", description = "the Groups API")
 @RestController
 public class UserController {
 
@@ -29,12 +32,12 @@ public class UserController {
     }
 
     @GetMapping("/users/account")
-    public UserData getUserByAccountEmail(Authentication authentication) {
+    public UserData getUserByAccountEmail(@Parameter(hidden = true) Authentication authentication) {
         return userService.getByAccountEmail(authentication.getName());
     }
 
     @PatchMapping("/users")
-    public UserData update(@Valid @RequestBody UserData userData, Authentication authentication) {
+    public UserData update(@Valid @RequestBody UserData userData, @Parameter(hidden = true) Authentication authentication) {
         return userService.update(userData, authentication.getName());
     }
 }

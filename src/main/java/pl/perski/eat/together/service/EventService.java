@@ -1,5 +1,6 @@
 package pl.perski.eat.together.service;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.stereotype.Service;
 import pl.perski.eat.together.database.model.AccountData;
 import pl.perski.eat.together.database.model.EventData;
@@ -11,7 +12,6 @@ import pl.perski.eat.together.exeption.AccessDeniedException;
 import pl.perski.eat.together.exeption.EntityNotFoundException;
 import pl.perski.eat.together.utils.Enums;
 import pl.perski.eat.together.utils.StringUtils;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
 
@@ -61,8 +61,7 @@ public class EventService implements IEventService {
 
     @Override
     public List<EventData> getAllForToday(String email) {
-        throw
-                new NotImplementedException(); //todo
+        throw new NotImplementedException("Not implemented \"Get All For Today\""); //todo
     }
 
     @Override

@@ -1,5 +1,6 @@
 package pl.perski.eat.together.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pl.perski.eat.together.database.model.AccountData;
@@ -11,6 +12,7 @@ import java.util.List;
 
 import static pl.perski.eat.together.utils.SecurityConstants.SIGN_UP_URL;
 
+@Tag(name = "accounts", description = "the Accounts API")
 @RestController
 public class AccountController {
 
