@@ -1,7 +1,7 @@
 package pl.perski.eat.together.service;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.stereotype.Service;
-import pl.perski.eat.together.database.model.AccountData;
 import pl.perski.eat.together.database.model.UserData;
 import pl.perski.eat.together.database.repository.AccountRepository;
 import pl.perski.eat.together.database.repository.UserRepository;
@@ -25,11 +25,13 @@ public class UserService implements IUserService {
         return userRepository.findAll();
     }
 
+    //todo
     @Override
     public UserData update(UserData userData, String accountEmail) {
-        AccountData accountData = accountRepository.findAccountByEmail(accountEmail);
-        userData.setId(accountData.getUserData().getId());
-        return userRepository.save(userData);
+        throw new NotImplementedException("Not implemented yet!");
+//        AccountData accountData = accountRepository.findAccountByEmail(accountEmail);
+//        UserData user = accountData.getUserData();
+//        return userRepository.save(userData);
     }
 
     @Override

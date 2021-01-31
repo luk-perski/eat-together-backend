@@ -33,5 +33,4 @@ public class UserData extends AuditModel {
     private String userLocationAddress;
     @Column(name = "distance_range")
     private double distanceRange;
-
 }

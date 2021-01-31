@@ -49,6 +49,8 @@ public class EventData extends AuditModel {
     @Transient
     private boolean callerIsCreator;
 
+    //todo move methods to another class
+
     public void addUser(int userId) {
         participants = StringUtils.addIdToList(participants, userId);
     }

@@ -1,10 +1,10 @@
-package pl.perski.eat.together.service.model;
+package pl.perski.eat.together.api.v2.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import pl.perski.eat.together.database.model.AccountData;
-import pl.perski.eat.together.database.model.UserData;
+import pl.perski.eat.together.api.v2.dto.account.AccountDtoPost;
+import pl.perski.eat.together.api.v2.dto.user.UserDtoPost;
 
 import javax.validation.constraints.NotNull;
 
@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class AddAccountData {
     @NotNull
-    AccountData accountData;
+    AccountDtoPost accountData;
     @NotNull
-    UserData userData;
+    UserDtoPost userData;
 }

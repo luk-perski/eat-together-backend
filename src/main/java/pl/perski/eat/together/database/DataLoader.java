@@ -18,10 +18,10 @@ import java.util.List;
 
 @Component
 public class DataLoader implements ApplicationRunner {
-    private AccountRepository accountRepository;
-    private UserRepository userRepository;
-    private EventRepository eventRepository;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final AccountRepository accountRepository;
+    private final UserRepository userRepository;
+    private final EventRepository eventRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     @Value("${spring.jpa.hibernate.ddl-auto}")
     private String databaseInitializationMode;
 

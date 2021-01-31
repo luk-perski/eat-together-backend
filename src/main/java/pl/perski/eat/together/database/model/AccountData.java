@@ -42,6 +42,7 @@ public class AccountData extends AuditModel {
     @JsonIgnore
     private UserData userData;
 
+    //todo methods to another class
     public void addEventToHistory(int eventId) {
         eventHistory = StringUtils.addIdToList(eventHistory, eventId);
     }

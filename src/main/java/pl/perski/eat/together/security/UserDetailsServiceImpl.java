@@ -12,7 +12,7 @@ import static java.util.Collections.emptyList;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-    private AccountRepository accountRepository;
+    private final AccountRepository accountRepository;
 
     public UserDetailsServiceImpl(AccountRepository applicationUserRepository) {
         this.accountRepository = applicationUserRepository;
@@ -24,7 +24,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (applicationUser == null) {
             throw new UsernameNotFoundException(email);
         }
-        User user = new User(applicationUser.getEmail(), applicationUser.getPassword(), emptyList());
-        return user;
+        return new User(applicationUser.getEmail(), applicationUser.getPassword(), emptyList());
     }
 }
