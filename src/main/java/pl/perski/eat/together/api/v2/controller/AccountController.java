@@ -39,9 +39,9 @@ public class AccountController {
 
     @PostMapping(SIGN_UP_URL)
     @ResponseStatus(HttpStatus.CREATED)
-    public Boolean addAccount(@Valid @RequestBody AddAccountData request) {
+    public void addAccount(@Valid @RequestBody AddAccountData request) {
         AccountData accountData = accountMapper.toAccountData(request.getAccountData());
         UserData userData = userMapper.toUserData(request.getUserData());
-        return accountService.addAccount(accountData, userData);
+        accountService.addAccount(accountData, userData);
     }
 }

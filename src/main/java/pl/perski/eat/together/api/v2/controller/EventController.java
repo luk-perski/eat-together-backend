@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import pl.perski.eat.together.api.v2.dto.event.EventDtoGet;
@@ -31,6 +32,7 @@ public class EventController {
     }
 
     @PostMapping(value = "/events", consumes = "application/json", produces = "application/json")
+    @ResponseStatus(value = HttpStatus.CREATED)
     public EventDtoGet addEvent(@Valid @RequestBody EventDtoPost request, @Parameter(hidden = true) Authentication authentication) {
         EventData eventData = eventMapper.toEventData(request);
         return eventMapper.toEventDtoGet(eventService.addEvent(eventData, authentication.getName()));
