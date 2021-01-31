@@ -40,7 +40,6 @@ public class UserController {
 
     @PatchMapping("/users")
     public UserDtoGet update(@Valid @RequestBody UserDtoPost request, @Parameter(hidden = true) Authentication authentication) {
-        UserData userData = userMapper.toUserData(request);
-        return userMapper.toUserDtoGet(userService.update(userData, authentication.getName()));
+        return userMapper.toUserDtoGet(userService.update(request, authentication.getName(), userMapper));
     }
 }

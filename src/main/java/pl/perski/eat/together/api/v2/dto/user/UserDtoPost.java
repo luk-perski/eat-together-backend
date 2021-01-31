@@ -11,9 +11,9 @@ public class UserDtoPost {
     @Column(name = "company_name")
     private String companyName;
     private String description;
-    private double userLocationLongitude;
-    private double userLocationLatitude;
+    private Double userLocationLongitude;
+    private Double userLocationLatitude;
     @Column(name = "distance_range")
-    private double distanceRange;
+    private Double distanceRange;
     private String userLocationAddress;
 }
