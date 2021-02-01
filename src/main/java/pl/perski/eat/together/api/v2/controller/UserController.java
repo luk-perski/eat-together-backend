@@ -14,7 +14,6 @@ import pl.perski.eat.together.service.IUserService;
 import javax.validation.Valid;
 import java.util.List;
 
-//todo add Result as return
 @Tag(name = "users", description = "the Users API")
 @RestController
 @RequiredArgsConstructor

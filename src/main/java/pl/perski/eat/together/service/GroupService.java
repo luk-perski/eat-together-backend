@@ -6,6 +6,7 @@ import pl.perski.eat.together.database.model.GroupData;
 import pl.perski.eat.together.database.repository.AccountRepository;
 import pl.perski.eat.together.database.repository.GroupRepository;
 import pl.perski.eat.together.exeption.EntityNotFoundException;
+import pl.perski.eat.together.utils.AccountUtils;
 
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class GroupService implements IGroupService {
         groupData.addUser(groupData.getCreatorUserId());
         GroupData addedGroupData = groupRepository.save(groupData);
         AccountData accountData = accountService.getById(groupData.getCreatorUserId());
-        accountData.addGroup(addedGroupData.getId());
+        AccountUtils.addGroup(accountData, addedGroupData.getId());
         return addedGroupData;
     }
 
@@ -49,7 +50,7 @@ public class GroupService implements IGroupService {
         groupData.addUser(userId);
         groupRepository.save(groupData);
         AccountData accountData = accountRepository.findAccountByUserData(userId);
-        accountData.addGroup(groupId);
+        AccountUtils.addGroup(accountData, groupId);
         accountRepository.save(accountData);
         return String.format("Added user %s to group %s.", accountData.getUserData().getFirstName(), groupData.getName());
     }

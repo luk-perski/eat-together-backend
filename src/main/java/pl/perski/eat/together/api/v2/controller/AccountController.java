@@ -17,7 +17,6 @@ import java.util.List;
 
 import static pl.perski.eat.together.utils.SecurityConstants.SIGN_UP_URL;
 
-//todo add Result as return
 @RequiredArgsConstructor
 @Tag(name = "accounts", description = "the Accounts API")
 @RestController

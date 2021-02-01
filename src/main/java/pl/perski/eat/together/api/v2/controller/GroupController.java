@@ -14,7 +14,6 @@ import pl.perski.eat.together.service.IGroupService;
 import javax.validation.Valid;
 import java.util.List;
 
-//todo add Result as return
 @Tag(name = "groups", description = "the Group API")
 @Controller
 @RequiredArgsConstructor

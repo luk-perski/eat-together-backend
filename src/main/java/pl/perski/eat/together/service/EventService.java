@@ -10,6 +10,7 @@ import pl.perski.eat.together.database.repository.EventRepository;
 import pl.perski.eat.together.database.repository.UserRepository;
 import pl.perski.eat.together.exeption.AccessDeniedException;
 import pl.perski.eat.together.exeption.EntityNotFoundException;
+import pl.perski.eat.together.utils.AccountUtils;
 import pl.perski.eat.together.utils.Enums;
 import pl.perski.eat.together.utils.StringUtils;
 
@@ -125,7 +126,7 @@ public class EventService implements IEventService {
     }
 
     private void addEventToAccountHistory(AccountData accountData, int eventId) {
-        accountData.addEventToHistory(eventId);
+        AccountUtils.addEventToHistory(accountData, eventId);
         accountRepository.save(accountData);
     }
 
@@ -137,7 +138,7 @@ public class EventService implements IEventService {
 
     private void removeEventFromAccountEventHistory(AccountData accountData, int eventId) {
 //        accountData.setEventHistory(StringUtils.removeIdFromList(accountData.getEventHistory(), eventId));
-        accountData.removeEventFromHistory(eventId);
+        AccountUtils.removeEventFromHistory(accountData, eventId);
         accountRepository.save(accountData);
     }
 

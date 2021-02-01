@@ -41,17 +41,4 @@ public class AccountData extends AuditModel {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private UserData userData;
-
-    //todo methods to another class
-    public void addEventToHistory(int eventId) {
-        eventHistory = StringUtils.addIdToList(eventHistory, eventId);
-    }
-
-    public void removeEventFromHistory(int eventId) {
-        eventHistory = StringUtils.removeIdFromList(eventHistory, eventId);
-    }
-
-    public void addGroup(int groupId) {
-        StringUtils.addIdToList(userGroups, groupId);
-    }
 }

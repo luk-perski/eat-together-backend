@@ -16,7 +16,6 @@ import pl.perski.eat.together.service.IEventService;
 import javax.validation.Valid;
 import java.util.List;
 
-//todo add Result as return
 @RequiredArgsConstructor
 @Tag(name = "events", description = "the Events API")
 @RestController
