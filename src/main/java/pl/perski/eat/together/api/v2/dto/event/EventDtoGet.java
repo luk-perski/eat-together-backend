@@ -15,7 +15,7 @@ public class EventDtoGet {
     private String placeLocation;
     private String description;
     private Boolean isPublic;
-    private int status;
+    private String status;
     private String participants;
     private boolean callerJoin;
     private boolean callerIsCreator;

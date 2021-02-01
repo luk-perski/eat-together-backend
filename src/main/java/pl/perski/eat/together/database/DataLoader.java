@@ -11,6 +11,7 @@ import pl.perski.eat.together.database.model.UserData;
 import pl.perski.eat.together.database.repository.AccountRepository;
 import pl.perski.eat.together.database.repository.EventRepository;
 import pl.perski.eat.together.database.repository.UserRepository;
+import pl.perski.eat.together.enums.EventStatus;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -88,7 +89,7 @@ public class DataLoader implements ApplicationRunner {
                         .locationLongitude(52.404950)
                         .locationLatitude(16.924498)
                         .placeLocation("Ratajczaka 37, 61-815 Poznań")
-                        .status(0)
+                        .status(EventStatus.ACTIVE)
                         .build());
                 eventList.add(EventData
                         .builder()
@@ -103,7 +104,7 @@ public class DataLoader implements ApplicationRunner {
                         .locationLongitude(52.404870)
                         .placeLocation("Ratajczaka 18, 61-891 Poznań")
                         .locationLatitude(16.924568)
-                        .status(0)
+                        .status(EventStatus.ACTIVE)
                         .build());
 
                 eventList.add(EventData
@@ -119,7 +120,7 @@ public class DataLoader implements ApplicationRunner {
                         .locationLongitude(52.404870)
                         .locationLatitude(16.924568)
                         .placeLocation("Ratajczaka 25, 61-814 Poznań")
-                        .status(0)
+                        .status(EventStatus.ACTIVE)
                         .build());
                 eventList.add(EventData
                         .builder()
@@ -134,7 +135,7 @@ public class DataLoader implements ApplicationRunner {
                         .locationLongitude(52.408756)
                         .locationLatitude(16.920957)
                         .placeLocation("Fredry 12, 61-701 Poznań")
-                        .status(0)
+                        .status(EventStatus.ACTIVE)
                         .build());
                 eventList.add(EventData
                         .builder()
@@ -149,7 +150,7 @@ public class DataLoader implements ApplicationRunner {
                         .locationLongitude(52.408921)
                         .locationLatitude(16.912201)
                         .placeLocation("Roosevelta 20, 60-829 Poznań")
-                        .status(0)
+                        .status(EventStatus.ACTIVE)
                         .build());
                 eventList.add(EventData
                         .builder()
@@ -164,7 +165,7 @@ public class DataLoader implements ApplicationRunner {
                         .locationLongitude(52.410567)
                         .locationLatitude(16.920957)
                         .placeLocation("Mickiewicza 24, 60-835 Poznań")
-                        .status(0)
+                        .status(EventStatus.ACTIVE)
                         .build());
                 eventList.add(EventData
                         .builder()
@@ -179,7 +180,7 @@ public class DataLoader implements ApplicationRunner {
                         .locationLongitude(52.404950)
                         .locationLatitude(16.924498)
                         .placeLocation("Ratajczaka 33, 61-816 Poznań")
-                        .status(0)
+                        .status(EventStatus.ACTIVE)
                         .build());
                 eventList.add(EventData
                         .builder()
@@ -194,7 +195,7 @@ public class DataLoader implements ApplicationRunner {
                         .locationLongitude(52.404950)
                         .locationLatitude(16.924498)
                         .placeLocation("Ratajczaka 33, 61-816 Poznań")
-                        .status(0)
+                        .status(EventStatus.ACTIVE)
                         .build());
                 eventList.add(EventData
                         .builder()
@@ -209,7 +210,7 @@ public class DataLoader implements ApplicationRunner {
                         .locationLongitude(52.404950)
                         .locationLatitude(16.924498)
                         .placeLocation("Ratajczaka 33, 61-816 Poznań")
-                        .status(0)
+                        .status(EventStatus.ACTIVE)
                         .build());
                 eventList.add(EventData
                         .builder()
@@ -224,7 +225,7 @@ public class DataLoader implements ApplicationRunner {
                         .locationLongitude(52.404950)
                         .locationLatitude(16.924498)
                         .placeLocation("Ratajczaka 33, 61-816 Poznań")
-                        .status(0)
+                        .status(EventStatus.ACTIVE)
                         .build());
                 eventList.add(EventData
                         .builder()
@@ -239,7 +240,7 @@ public class DataLoader implements ApplicationRunner {
                         .locationLongitude(52.404950)
                         .locationLatitude(16.924498)
                         .placeLocation("Ratajczaka 33, 61-816 Poznań")
-                        .status(0)
+                        .status(EventStatus.ACTIVE)
                         .build());
                 eventList.add(EventData
                         .builder()
@@ -254,7 +255,7 @@ public class DataLoader implements ApplicationRunner {
                         .locationLongitude(52.404950)
                         .locationLatitude(16.924498)
                         .placeLocation("Ratajczaka 33, 61-816 Poznań")
-                        .status(0)
+                        .status(EventStatus.ACTIVE)
                         .build());
                 eventList.add(EventData
                         .builder()
@@ -269,7 +270,7 @@ public class DataLoader implements ApplicationRunner {
                         .locationLongitude(52.404950)
                         .locationLatitude(16.924498)
                         .placeLocation("Ratajczaka 33, 61-816 Poznań")
-                        .status(0)
+                        .status(EventStatus.ACTIVE)
                         .build());
                 eventList.add(EventData
                         .builder()
@@ -284,7 +285,7 @@ public class DataLoader implements ApplicationRunner {
                         .locationLongitude(52.404950)
                         .locationLatitude(16.924498)
                         .placeLocation("Ratajczaka 33, 61-816 Poznań")
-                        .status(0)
+                        .status(EventStatus.ACTIVE)
                         .build());
                 eventList.add(EventData
                         .builder()
@@ -299,7 +300,7 @@ public class DataLoader implements ApplicationRunner {
                         .locationLongitude(52.404950)
                         .locationLatitude(16.924498)
                         .placeLocation("Ratajczaka 33, 61-816 Poznań")
-                        .status(0)
+                        .status(EventStatus.ACTIVE)
                         .build());
                 eventList.add(EventData
                         .builder()
@@ -314,7 +315,7 @@ public class DataLoader implements ApplicationRunner {
                         .locationLongitude(52.404950)
                         .locationLatitude(16.924498)
                         .placeLocation("Ratajczaka 33, 61-816 Poznań")
-                        .status(0)
+                        .status(EventStatus.ACTIVE)
                         .build());
                 eventList.add(EventData
                         .builder()
@@ -329,7 +330,7 @@ public class DataLoader implements ApplicationRunner {
                         .locationLongitude(52.404950)
                         .locationLatitude(16.924498)
                         .placeLocation("Ratajczaka 33, 61-816 Poznań")
-                        .status(0)
+                        .status(EventStatus.ACTIVE)
                         .build());
                 eventList.add(EventData
                         .builder()
@@ -344,7 +345,7 @@ public class DataLoader implements ApplicationRunner {
                         .locationLongitude(52.404950)
                         .locationLatitude(16.924498)
                         .placeLocation("Ratajczaka 33, 61-816 Poznań")
-                        .status(0)
+                        .status(EventStatus.ACTIVE)
                         .build());
                 eventList.add(EventData
                         .builder()
@@ -359,7 +360,7 @@ public class DataLoader implements ApplicationRunner {
                         .locationLongitude(52.404950)
                         .locationLatitude(16.924498)
                         .placeLocation("Ratajczaka 33, 61-816 Poznań")
-                        .status(0)
+                        .status(EventStatus.ACTIVE)
                         .build());
                 accountRepository.saveAll(accountList);
                 eventRepository.saveAll(eventList);

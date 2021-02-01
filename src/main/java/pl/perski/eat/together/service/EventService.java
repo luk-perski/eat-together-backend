@@ -8,10 +8,11 @@ import pl.perski.eat.together.database.model.UserData;
 import pl.perski.eat.together.database.repository.AccountRepository;
 import pl.perski.eat.together.database.repository.EventRepository;
 import pl.perski.eat.together.database.repository.UserRepository;
+import pl.perski.eat.together.enums.EventStatus;
 import pl.perski.eat.together.exeption.AccessDeniedException;
 import pl.perski.eat.together.exeption.EntityNotFoundException;
 import pl.perski.eat.together.utils.AccountUtils;
-import pl.perski.eat.together.utils.Enums;
+import pl.perski.eat.together.utils.EventUtils;
 import pl.perski.eat.together.utils.StringUtils;
 
 import java.util.List;
@@ -50,7 +51,7 @@ public class EventService implements IEventService {
     @Override
     public EventData addEvent(EventData eventData, String email) {
         AccountData accountData = getAccountByEmail(email);
-        eventData.setStatus(Enums.EVENT_STATUS.ACTIVE.ordinal());
+        eventData.setStatus(EventStatus.ACTIVE);
         eventData.setCreatorAccountId(accountData.getId());
         eventData.setCreatorName(String.format("%s (%s)",
                 accountData.getUserData().getFirstName(), accountData.getUserData().getCompanyName()));
@@ -95,7 +96,7 @@ public class EventService implements IEventService {
         if (eventData.getCreatorAccountId() != accountData.getId()) {
             throw new AccessDeniedException("Operation denied! Account with this id is not creator of the event.");
         }
-        eventData.setStatus(Enums.EVENT_STATUS.DISABLED.ordinal());
+        eventData.setStatus(EventStatus.DISABLED);
         removeEventFromAccountEventHistory(accountData, eventId);
         removeUserFromEventParticipants(eventData, accountData);
         return String.format("User %s has been removed from event(%s) and event has been deactivate.", accountData.getUserData().getFirstName(), eventData.getPlaceName());
@@ -131,8 +132,7 @@ public class EventService implements IEventService {
     }
 
     private void addUserToEventParticipants(EventData eventData, AccountData accountData) {
-//        eventData.setParticipants(StringUtils.addIdToList(eventData.getParticipants(), accountData.getUserData().getId()));
-        eventData.addUser(accountData.getUserData().getId());
+        EventUtils.addUser(eventData, accountData.getUserData().getId());
         eventRepository.save(eventData);
     }
 
@@ -143,8 +143,7 @@ public class EventService implements IEventService {
     }
 
     private void removeUserFromEventParticipants(EventData eventData, AccountData accountData) {
-//        eventData.setParticipants(StringUtils.removeIdFromList(eventData.getParticipants(), accountData.getUserData().getId()));
-        eventData.removeUser(accountData.getUserData().getId());
+        EventUtils.removeUser(eventData, accountData.getUserData().getId());
         eventRepository.save(eventData);
     }
 

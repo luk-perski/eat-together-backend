@@ -1,7 +1,7 @@
 package pl.perski.eat.together.database.model;
 
 import lombok.*;
-import pl.perski.eat.together.utils.StringUtils;
+import pl.perski.eat.together.enums.EventStatus;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -40,22 +40,11 @@ public class EventData extends AuditModel {
     @Column(name = "is_public")
     private Boolean isPublic;
     @Column(name = "status")
-    //todo change to ENUM
     @NotNull
-    private int status;
+    private EventStatus status;
     private String participants;
     @Transient
     private boolean callerJoin;
     @Transient
     private boolean callerIsCreator;
-
-    //todo move methods to another class
-
-    public void addUser(int userId) {
-        participants = StringUtils.addIdToList(participants, userId);
-    }
-
-    public void removeUser(int userId) {
-        participants = StringUtils.removeIdFromList(participants, userId);
-    }
 }

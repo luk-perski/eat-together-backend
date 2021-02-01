@@ -14,5 +14,5 @@ public class EventDtoPost {
     private String placeLocation;
     private String description;
     private Boolean isPublic;
-    private int status;
+    private String status;
 }
