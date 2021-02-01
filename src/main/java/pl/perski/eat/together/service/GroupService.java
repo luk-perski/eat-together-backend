@@ -7,6 +7,7 @@ import pl.perski.eat.together.database.repository.AccountRepository;
 import pl.perski.eat.together.database.repository.GroupRepository;
 import pl.perski.eat.together.exeption.EntityNotFoundException;
 import pl.perski.eat.together.utils.AccountUtils;
+import pl.perski.eat.together.utils.GroupUtils;
 
 import java.util.List;
 
@@ -35,11 +36,14 @@ public class GroupService implements IGroupService {
         return getGroupById(groupId);
     }
 
+    //todo add setting usersId
     @Override
-    public GroupData add(GroupData groupData) {
-        groupData.addUser(groupData.getCreatorUserId());
+    public GroupData add(GroupData groupData, String userEmail) {
+        AccountData accountData = accountRepository.findAccountByEmail(userEmail);
+        int userId = accountData.getUserData().getId();
+        groupData.setCreatorUserId(userId);
+        GroupUtils.addUser(groupData, userId);
         GroupData addedGroupData = groupRepository.save(groupData);
-        AccountData accountData = accountService.getById(groupData.getCreatorUserId());
         AccountUtils.addGroup(accountData, addedGroupData.getId());
         return addedGroupData;
     }
@@ -47,10 +51,10 @@ public class GroupService implements IGroupService {
     @Override
     public String addUserToGroup(int userId, int groupId) {
         GroupData groupData = getGroupById(groupId);
-        groupData.addUser(userId);
-        groupRepository.save(groupData);
+        GroupUtils.addUser(groupData, groupId);
         AccountData accountData = accountRepository.findAccountByUserData(userId);
         AccountUtils.addGroup(accountData, groupId);
+        groupRepository.save(groupData);
         accountRepository.save(accountData);
         return String.format("Added user %s to group %s.", accountData.getUserData().getFirstName(), groupData.getName());
     }

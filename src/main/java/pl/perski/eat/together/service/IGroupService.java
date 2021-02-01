@@ -9,7 +9,7 @@ public interface IGroupService {
 
     GroupData getById(int groupId);
 
-    GroupData add(GroupData groupData);
+    GroupData add(GroupData groupData, String userEmail);
 
     String addUserToGroup(int userId, int groupId);
 }

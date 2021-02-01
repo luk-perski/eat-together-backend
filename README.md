@@ -13,6 +13,6 @@ Spring Boot app written as part of the diploma thesis "Comparative analysis of t
 
 ## API documentation
 
-[Swagger](http://localhost:2501/api/v1/swagger-ui/index.html?url=/api/v1/api-docs)
+[Swagger](http://localhost:2501/api/v2/swagger-ui/index.html?url=/api/v2/api-docs)
 
 

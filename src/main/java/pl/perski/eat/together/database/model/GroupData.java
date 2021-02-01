@@ -2,7 +2,6 @@ package pl.perski.eat.together.database.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import pl.perski.eat.together.utils.StringUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -28,8 +27,4 @@ public class GroupData extends AuditModel {
     @Column(name = "users_ID")
     private String usersId;
 
-    //todo move to another class
-    public void addUser(int userId) {
-        StringUtils.addIdToList(this.usersId, userId);
-    }
 }

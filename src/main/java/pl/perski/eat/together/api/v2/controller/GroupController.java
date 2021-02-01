@@ -1,9 +1,10 @@
 package pl.perski.eat.together.api.v2.controller;
 
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import pl.perski.eat.together.api.v2.dto.group.GroupDtoGet;
 import pl.perski.eat.together.api.v2.dto.group.GroupDtoPost;
@@ -15,7 +16,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Tag(name = "groups", description = "the Group API")
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class GroupController {
     private final IGroupService groupService;
@@ -28,9 +29,9 @@ public class GroupController {
 
     @PostMapping("/groups")
     @ResponseStatus(value = HttpStatus.CREATED)
-    public GroupDtoGet addGroup(@Valid @RequestBody GroupDtoPost request) {
+    public GroupDtoGet addGroup(@Valid @RequestBody GroupDtoPost request, @Parameter(hidden = true) Authentication authentication) {
         GroupData groupData = groupMapper.toGroupData(request);
-        return groupMapper.toGroupDtoGet(groupService.add(groupData));
+        return groupMapper.toGroupDtoGet(groupService.add(groupData, authentication.getName()));
     }
 
     @PatchMapping("/groups/add-user")
