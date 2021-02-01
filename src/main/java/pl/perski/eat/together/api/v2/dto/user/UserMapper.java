@@ -5,7 +5,7 @@ import pl.perski.eat.together.database.model.UserData;
 
 import java.util.List;
 
-@Mapper
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserMapper {
     UserDtoGet toUserDtoGet(UserData user);
 
