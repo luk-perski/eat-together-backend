@@ -9,8 +9,6 @@ import java.util.List;
 public interface GroupMapper {
     GroupDtoGet toGroupDtoGet(GroupData group);
 
-    GroupDtoPost toGroupDtoPost(GroupData groupData);
-
     GroupData toGroupData(GroupDtoPost groupDtoPost);
 
     List<GroupDtoGet> toGroupsDTOs(List<GroupData> groups);

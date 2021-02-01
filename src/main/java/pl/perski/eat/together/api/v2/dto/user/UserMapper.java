@@ -9,8 +9,6 @@ import java.util.List;
 public interface UserMapper {
     UserDtoGet toUserDtoGet(UserData user);
 
-    UserDtoPost toUserDtoPost(UserData userData);
-
     UserData toUserData(UserDtoPost userDtoPost);
 
     List<UserDtoGet> toUsersDTOs(List<UserData> users);

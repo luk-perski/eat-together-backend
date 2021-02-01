@@ -9,8 +9,6 @@ import java.util.List;
 public interface EventMapper {
     EventDtoGet toEventDtoGet(EventData event);
 
-    EventDtoPost toEventDtoPost(EventData eventData);
-
     EventData toEventData(EventDtoPost eventDtoPost);
 
     List<EventDtoGet> toEventsDTOs(List<EventData> events);

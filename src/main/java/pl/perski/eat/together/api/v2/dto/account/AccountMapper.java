@@ -9,8 +9,6 @@ import java.util.List;
 public interface AccountMapper {
     AccountDtoGet toAccountDtoGet(AccountData account);
 
-    AccountDtoPost toAccountDtoPost(AccountData accountData);
-
     AccountData toAccountData(AccountDtoPost accountDtoPost);
 
     List<AccountDtoGet> toAccountDTOs(List<AccountData> accounts);
