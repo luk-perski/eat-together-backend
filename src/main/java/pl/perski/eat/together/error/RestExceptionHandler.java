@@ -211,14 +211,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(apiError);
     }
 
-    @ExceptionHandler(TokenExpiredException.class)//todo
-    protected ResponseEntity<Object> handleTokenExpired(TokenExpiredException ex, WebRequest request) {
-        ApiError apiError = new ApiError(FORBIDDEN);
-        apiError.setMessage("odśwież token!" + ex.getMessage());
-        apiError.setDebugMessage(ex.getMessage());
-        return buildResponseEntity(apiError);
-    }
-
     private ResponseEntity<Object> buildResponseEntity(ApiError apiError) {
         return new ResponseEntity<>(apiError, apiError.getStatus());
     }

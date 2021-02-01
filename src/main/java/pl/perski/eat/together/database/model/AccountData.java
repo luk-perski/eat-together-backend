@@ -39,6 +39,5 @@ public class AccountData extends AuditModel {
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
     private UserData userData;
 }

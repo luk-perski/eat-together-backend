@@ -27,7 +27,6 @@ public class UserService implements IUserService {
         return userRepository.findAll();
     }
 
-    //todo
     @Override
     public UserData update(UserDtoPost userDto, String accountEmail, UserMapper userMapper) {
         AccountData accountData = accountRepository.findAccountByEmail(accountEmail);
