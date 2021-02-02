@@ -45,7 +45,6 @@ public class EventService implements IEventService {
         eventData.setCreatorName(String.format("%s (%s)",
                 accountData.getUserData().getFirstName(), accountData.getUserData().getCompanyName()));
         EventData savedEventData = eventRepository.save(eventData);
-        addEventToAccountHistory(accountData, eventData.getId());
         addEventParticipant(eventData, accountData.getUserData());
         return savedEventData;
     }
@@ -65,7 +64,6 @@ public class EventService implements IEventService {
         EventData eventData = getEventById(eventId);
         AccountData accountData = getAccountByEmail(email);
         addEventParticipant(eventData, accountData.getUserData());
-        addEventToAccountHistory(accountData, eventId);
         return String.format("User %s has been added to event(%s)", accountData.getUserData().getFirstName(), eventData.getPlaceName());
     }
 
@@ -74,7 +72,6 @@ public class EventService implements IEventService {
         EventData eventData = getEventById(eventId);
         AccountData accountData = getAccountByEmail(email);
         removeUserFromEventParticipants(eventId, accountData);
-        removeEventFromAccountEventHistory(accountData, eventId);
         return String.format("User %s has been removed from event(%s)", accountData.getUserData().getFirstName(), eventData.getPlaceName());
     }
 
@@ -86,7 +83,6 @@ public class EventService implements IEventService {
             throw new AccessDeniedException("Operation denied! Account with this id is not creator of the event.");
         }
         eventData.setStatus(EventStatus.DISABLED);
-        removeEventFromAccountEventHistory(accountData, eventId);
         removeUserFromEventParticipants(eventId, accountData);
         return String.format("User %s has been removed from event(%s) and event has been deactivate.", accountData.getUserData().getFirstName(), eventData.getPlaceName());
     }
@@ -115,11 +111,6 @@ public class EventService implements IEventService {
         return accountData;
     }
 
-    private void addEventToAccountHistory(AccountData accountData, int eventId) {
-        AccountUtils.addEventToHistory(accountData, eventId);
-        accountRepository.save(accountData);
-    }
-
     private void addEventParticipant(EventData eventData, UserData userData) {
         if (eventParticipationRepository.findByEvent_IdAndUser_Id(eventData.getId(), userData.getId()).size() > 0) {
             throw new DuplicateKeyException("The user is already a participant in the event");
@@ -129,11 +120,6 @@ public class EventService implements IEventService {
                 .user(userData)
                 .build();
         eventParticipationRepository.save(eventParticipation);
-    }
-
-    private void removeEventFromAccountEventHistory(AccountData accountData, int eventId) {
-        AccountUtils.removeEventFromHistory(accountData, eventId);
-        accountRepository.save(accountData);
     }
 
     private void removeUserFromEventParticipants(int eventId, AccountData accountData) {

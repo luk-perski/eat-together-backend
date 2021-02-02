@@ -19,9 +19,6 @@ import javax.validation.constraints.NotNull;
 @Table(name = "accounts", uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
 public class AccountData extends AuditModel {
 
-    @Column(name = "event_history")
-    private String eventHistory;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
