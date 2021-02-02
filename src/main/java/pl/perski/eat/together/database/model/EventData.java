@@ -4,6 +4,7 @@ import lombok.*;
 import pl.perski.eat.together.enums.EventStatus;
 
 import javax.persistence.*;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -24,6 +25,7 @@ public class EventData extends AuditModel {
     @Column(name = "creator_name")
     private String creatorName;
     @NotNull
+    @Future
     @Column(name = "date")
     private Date date;
     @NotNull
@@ -42,7 +44,6 @@ public class EventData extends AuditModel {
     @Column(name = "status")
     @NotNull
     private EventStatus status;
-    private String participants;
     @Transient
     private boolean callerJoin;
     @Transient

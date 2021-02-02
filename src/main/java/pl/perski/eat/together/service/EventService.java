@@ -1,51 +1,40 @@
 package pl.perski.eat.together.service;
 
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.NotImplementedException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import pl.perski.eat.together.database.model.AccountData;
 import pl.perski.eat.together.database.model.EventData;
+import pl.perski.eat.together.database.model.EventParticipationData;
 import pl.perski.eat.together.database.model.UserData;
 import pl.perski.eat.together.database.repository.AccountRepository;
+import pl.perski.eat.together.database.repository.EventParticipationRepository;
 import pl.perski.eat.together.database.repository.EventRepository;
-import pl.perski.eat.together.database.repository.UserRepository;
 import pl.perski.eat.together.enums.EventStatus;
 import pl.perski.eat.together.exeption.AccessDeniedException;
 import pl.perski.eat.together.exeption.EntityNotFoundException;
 import pl.perski.eat.together.utils.AccountUtils;
-import pl.perski.eat.together.utils.EventUtils;
-import pl.perski.eat.together.utils.StringUtils;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @Service
 public class EventService implements IEventService {
 
     private final EventRepository eventRepository;
     private final AccountRepository accountRepository;
-    private final UserRepository userRepository;
+    private final EventParticipationRepository eventParticipationRepository;
 
-    public EventService(EventRepository eventRepository, AccountRepository accountRepository, UserRepository userRepository) {
-        this.eventRepository = eventRepository;
-        this.accountRepository = accountRepository;
-        this.userRepository = userRepository;
-    }
-
+    //todo add EventParticipation info
     @Override
     public List<EventData> getAll(String email) {
-        List<EventData> eventDataList = eventRepository.findAll();
-        setJoin(eventDataList, email);
-        translateParticipants(eventDataList);
-        return eventDataList;
+        return eventRepository.findAll();
     }
 
     @Override
     public List<EventData> getAllActiveFromNow(String email) {
-        List<EventData> eventDataList = eventRepository.findAllWithEventDateAfterNow();
-        if (eventDataList != null) {
-            setJoin(eventDataList, email);
-            translateParticipants(eventDataList);
-        }
-        return eventDataList;
+        return eventRepository.findAllWithEventDateAfterNow();
     }
 
     @Override
@@ -57,7 +46,7 @@ public class EventService implements IEventService {
                 accountData.getUserData().getFirstName(), accountData.getUserData().getCompanyName()));
         EventData savedEventData = eventRepository.save(eventData);
         addEventToAccountHistory(accountData, eventData.getId());
-        addUserToEventParticipants(eventData, accountData);
+        addEventParticipant(eventData, accountData.getUserData());
         return savedEventData;
     }
 
@@ -75,8 +64,8 @@ public class EventService implements IEventService {
     public String joinToEvent(int eventId, String email) {
         EventData eventData = getEventById(eventId);
         AccountData accountData = getAccountByEmail(email);
+        addEventParticipant(eventData, accountData.getUserData());
         addEventToAccountHistory(accountData, eventId);
-        addUserToEventParticipants(eventData, accountData);
         return String.format("User %s has been added to event(%s)", accountData.getUserData().getFirstName(), eventData.getPlaceName());
     }
 
@@ -84,7 +73,7 @@ public class EventService implements IEventService {
     public String leftFromEvent(int eventId, String email) {
         EventData eventData = getEventById(eventId);
         AccountData accountData = getAccountByEmail(email);
-        removeUserFromEventParticipants(eventData, accountData);
+        removeUserFromEventParticipants(eventId, accountData);
         removeEventFromAccountEventHistory(accountData, eventId);
         return String.format("User %s has been removed from event(%s)", accountData.getUserData().getFirstName(), eventData.getPlaceName());
     }
@@ -98,7 +87,7 @@ public class EventService implements IEventService {
         }
         eventData.setStatus(EventStatus.DISABLED);
         removeEventFromAccountEventHistory(accountData, eventId);
-        removeUserFromEventParticipants(eventData, accountData);
+        removeUserFromEventParticipants(eventId, accountData);
         return String.format("User %s has been removed from event(%s) and event has been deactivate.", accountData.getUserData().getFirstName(), eventData.getPlaceName());
     }
 
@@ -131,30 +120,26 @@ public class EventService implements IEventService {
         accountRepository.save(accountData);
     }
 
-    private void addUserToEventParticipants(EventData eventData, AccountData accountData) {
-        EventUtils.addUser(eventData, accountData.getUserData().getId());
-        eventRepository.save(eventData);
+    private void addEventParticipant(EventData eventData, UserData userData) {
+        if (eventParticipationRepository.findByEvent_IdAndUser_Id(eventData.getId(), userData.getId()).size() > 0) {
+            throw new DuplicateKeyException("The user is already a participant in the event");
+        }
+        EventParticipationData eventParticipation = EventParticipationData.builder()
+                .event(eventData)
+                .user(userData)
+                .build();
+        eventParticipationRepository.save(eventParticipation);
     }
 
     private void removeEventFromAccountEventHistory(AccountData accountData, int eventId) {
-//        accountData.setEventHistory(StringUtils.removeIdFromList(accountData.getEventHistory(), eventId));
         AccountUtils.removeEventFromHistory(accountData, eventId);
         accountRepository.save(accountData);
     }
 
-    private void removeUserFromEventParticipants(EventData eventData, AccountData accountData) {
-        EventUtils.removeUser(eventData, accountData.getUserData().getId());
-        eventRepository.save(eventData);
-    }
-
-    private void setJoin(List<EventData> eventDataList, String email) {
-        AccountData accountData = getAccountByEmail(email);
-        for (EventData x : eventDataList) {
-            if (x.getParticipants() != null) {
-                x.setCallerJoin(StringUtils.checkIfListContainsId(x.getParticipants(), accountData.getUserData().getId()));
-                x.setCallerIsCreator(x.getCreatorAccountId() == accountData.getId());
-            }
-        }
+    private void removeUserFromEventParticipants(int eventId, AccountData accountData) {
+        int userId = accountData.getUserData().getId();
+        List<EventParticipationData> eventParticipationData = eventParticipationRepository.findByEvent_IdAndUser_Id(eventId, userId);
+        eventParticipationRepository.deleteAll(eventParticipationData);
     }
 
     private void setJoinToAll(List<EventData> eventDataList, int userId) {
@@ -170,24 +155,4 @@ public class EventService implements IEventService {
     private int getAccountId(String email) {
         return getAccountByEmail(email).getId();
     }
-
-    private void translateParticipants(List<EventData> eventDataList) {
-        for (EventData x : eventDataList) {
-            if (x.getParticipants() != null) {
-                String names = "";
-                for (String participant : x.getParticipants().split(";")) {
-                    if (!participant.isEmpty()) {
-                        UserData userData = userRepository.getOne(Integer.parseInt(participant));
-                        if (names.length() > 1) {
-                            names = names + "\n";
-                        }
-                        names = String.format("%s%s %s (%s)", names, userData.getFirstName(), userData.getLastName(), userData.getCompanyName());
-                    }
-                }
-                x.setParticipants(names);
-            }
-        }
-    }
-
 }
-//String.format("%s%s %s (%s)", names[0], userData.getFirstName(), userData.getLastName(), userData.getCompanyName());
