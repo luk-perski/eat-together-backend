@@ -6,5 +6,4 @@ import lombok.Data;
 public class GroupDtoPost {
     private int id;
     private String name;
-    private String usersId;
 }

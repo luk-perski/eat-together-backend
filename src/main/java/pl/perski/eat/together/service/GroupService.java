@@ -1,30 +1,29 @@
 package pl.perski.eat.together.service;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import pl.perski.eat.together.database.model.AccountData;
 import pl.perski.eat.together.database.model.GroupData;
+import pl.perski.eat.together.database.model.GroupMember;
+import pl.perski.eat.together.database.model.UserData;
 import pl.perski.eat.together.database.repository.AccountRepository;
+import pl.perski.eat.together.database.repository.GroupMemberRepository;
 import pl.perski.eat.together.database.repository.GroupRepository;
-import pl.perski.eat.together.exeption.EntityNotFoundException;
-import pl.perski.eat.together.utils.AccountUtils;
+import pl.perski.eat.together.database.repository.UserRepository;
 import pl.perski.eat.together.utils.GroupUtils;
+import pl.perski.eat.together.utils.UserUtils;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class GroupService implements IGroupService {
 
     private final GroupRepository groupRepository;
-    private final IUserService userService;
-    private final IAccountService accountService;
     private final AccountRepository accountRepository;
-
-    public GroupService(GroupRepository groupRepository, IUserService userService, IAccountService accountService, AccountRepository accountRepository) {
-        this.groupRepository = groupRepository;
-        this.userService = userService;
-        this.accountService = accountService;
-        this.accountRepository = accountRepository;
-    }
+    private final UserRepository userRepository;
+    private final GroupMemberRepository groupMemberRepository;
 
     @Override
     public List<GroupData> getAll() {
@@ -33,37 +32,36 @@ public class GroupService implements IGroupService {
 
     @Override
     public GroupData getById(int groupId) {
-        return getGroupById(groupId);
+        return GroupUtils.getGroupById(groupRepository, groupId);
     }
 
-    //todo add setting usersId
     @Override
     public GroupData add(GroupData groupData, String userEmail) {
         AccountData accountData = accountRepository.findAccountByEmail(userEmail);
-        int userId = accountData.getUserData().getId();
-        groupData.setCreatorUserId(userId);
-        GroupUtils.addUser(groupData, userId);
-        GroupData addedGroupData = groupRepository.save(groupData);
-        AccountUtils.addGroup(accountData, addedGroupData.getId());
-        return addedGroupData;
+        UserData userData = accountData.getUserData();
+        groupData.setCreatorUserId(userData.getId());
+        groupData = groupRepository.save(groupData);
+        addGroupMember(groupData, userData);
+        return groupData;
     }
 
     @Override
     public String addUserToGroup(int userId, int groupId) {
-        GroupData groupData = getGroupById(groupId);
-        GroupUtils.addUser(groupData, groupId);
-        AccountData accountData = accountRepository.findAccountByUserData(userId);
-        AccountUtils.addGroup(accountData, groupId);
-        groupRepository.save(groupData);
-        accountRepository.save(accountData);
-        return String.format("Added user %s to group %s.", accountData.getUserData().getFirstName(), groupData.getName());
+        GroupData groupData = GroupUtils.getGroupById(groupRepository, groupId);
+        UserData userData = UserUtils.getUserById(userRepository, userId);
+        addGroupMember(groupData, userData);
+        return String.format("Added user %s to group %s.", userData.getFirstName(), groupData.getName());
     }
 
-    private GroupData getGroupById(int id) {
-        GroupData groupData = groupRepository.findById(id).orElse(null);
-        if (groupData == null) {
-            throw new EntityNotFoundException(GroupData.class, "id", Integer.toString(id));
+
+    private void addGroupMember(GroupData groupData, UserData userData) {
+        if (groupMemberRepository.findByGroup_IdAndUser_Id(groupData.getId(), userData.getId()).size() > 0) {
+            throw new DataIntegrityViolationException("The user is already a member in the group");
         }
-        return groupData;
+        GroupMember groupMember = GroupMember.builder()
+                .group(groupData)
+                .user(userData)
+                .build();
+        groupMemberRepository.save(groupMember);
     }
 }

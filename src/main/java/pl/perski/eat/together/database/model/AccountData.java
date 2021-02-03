@@ -30,9 +30,6 @@ public class AccountData extends AuditModel {
     @NotNull
     private String email;
 
-    @Column(name = "user_groups")
-    private String userGroups;
-
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)

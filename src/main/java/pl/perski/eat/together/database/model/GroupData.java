@@ -24,7 +24,4 @@ public class GroupData extends AuditModel {
     @Column(name = "creator_user_ID")
     private int creatorUserId;
 
-    @Column(name = "users_ID")
-    private String usersId;
-
 }

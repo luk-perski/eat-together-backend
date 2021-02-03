@@ -2,7 +2,7 @@ package pl.perski.eat.together.service;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.NotImplementedException;
-import org.springframework.dao.DuplicateKeyException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import pl.perski.eat.together.database.model.AccountData;
 import pl.perski.eat.together.database.model.EventData;
@@ -14,7 +14,6 @@ import pl.perski.eat.together.database.repository.EventRepository;
 import pl.perski.eat.together.enums.EventStatus;
 import pl.perski.eat.together.exeption.AccessDeniedException;
 import pl.perski.eat.together.exeption.EntityNotFoundException;
-import pl.perski.eat.together.utils.AccountUtils;
 
 import java.util.List;
 
@@ -113,7 +112,7 @@ public class EventService implements IEventService {
 
     private void addEventParticipant(EventData eventData, UserData userData) {
         if (eventParticipationRepository.findByEvent_IdAndUser_Id(eventData.getId(), userData.getId()).size() > 0) {
-            throw new DuplicateKeyException("The user is already a participant in the event");
+            throw new DataIntegrityViolationException("The user is already a participant in the event");
         }
         EventParticipationData eventParticipation = EventParticipationData.builder()
                 .event(eventData)
