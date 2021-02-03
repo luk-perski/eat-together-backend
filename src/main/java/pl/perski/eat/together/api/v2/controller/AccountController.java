@@ -11,11 +11,10 @@ import pl.perski.eat.together.api.v2.model.AddAccountData;
 import pl.perski.eat.together.database.model.AccountData;
 import pl.perski.eat.together.database.model.UserData;
 import pl.perski.eat.together.service.IAccountService;
+import pl.perski.eat.together.utils.SecurityConstants;
 
 import javax.validation.Valid;
 import java.util.List;
-
-import static pl.perski.eat.together.utils.SecurityConstants.SIGN_UP_URL;
 
 @RequiredArgsConstructor
 @Tag(name = "accounts", description = "the Accounts API")
@@ -36,7 +35,7 @@ public class AccountController {
         return accountMapper.toAccountDtoGet(accountService.getById(accountId));
     }
 
-    @PostMapping(SIGN_UP_URL)
+    @PostMapping(SecurityConstants.SIGN_UP_URL)
     @ResponseStatus(HttpStatus.CREATED)
     public void addAccount(@Valid @RequestBody AddAccountData request) {
         AccountData accountData = accountMapper.toAccountData(request.getAccountData());

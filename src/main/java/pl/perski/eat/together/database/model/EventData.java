@@ -44,6 +44,7 @@ public class EventData extends AuditModel {
     @Column(name = "status")
     @NotNull
     private EventStatus status;
+    //todo check if these fields are needed
     @Transient
     private boolean callerJoin;
     @Transient
