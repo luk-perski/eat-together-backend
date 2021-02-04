@@ -10,7 +10,7 @@
     </parent>
     <groupId>pl.perski</groupId>
     <artifactId>eat-together</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <name>eat-together</name>
     <description>Server module for 'Eat together' app</description>
 
@@ -19,6 +19,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <org.projectlombok.version>LATEST</org.projectlombok.version>
         <org.mapstruct.version>LATEST</org.mapstruct.version>
+        <maven.build.timestamp.format>yyyy-MM-dd-HH_mm_ss</maven.build.timestamp.format>
     </properties>
 
 
@@ -100,6 +101,7 @@
     </dependencies>
 
     <build>
+        <finalName>${project.artifactId}-${project.version}-${maven.build.timestamp}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -109,7 +111,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>LATEST</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
@@ -131,6 +132,11 @@
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.19.1</version>
             </plugin>
         </plugins>
     </build>
