@@ -26,8 +26,8 @@ public class AccountController {
     private final UserMapper userMapper;
 
     @GetMapping("/accounts")
-    public List<AccountData> getAccounts() {
-        return accountService.getAll();
+    public List<AccountDtoGet> getAccounts() {
+        return accountMapper.toAccountDTOs(accountService.getAll());
     }
 
     @GetMapping("/accounts/{accountId}")
