@@ -11,8 +11,8 @@ Spring Boot app written as part of the diploma thesis "Comparative analysis of t
 * [MapStruct](https://mapstruct.org/)
 * [springdoc-openapi](https://springdoc.org/)
 
-## API documentation
+## API documentation 
 
-[Swagger](http://localhost:2501/api/v2/swagger-ui/index.html?url=/api/v2/api-docs)
+[Swagger (local)](http://localhost:2501/api/v2/swagger-ui/index.html?url=/api/v2/api-docs)
 
 
