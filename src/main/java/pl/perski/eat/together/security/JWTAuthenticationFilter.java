@@ -5,7 +5,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -25,20 +24,19 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
-    @Value("${spring.jpa.hibernate.ddl-auto}")
-    private String expirationTime;
+    private final String expirationTime;
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationException {
         try {
-            AccountData creds = new ObjectMapper()
+            AccountData credentials = new ObjectMapper()
                     .readValue(req.getInputStream(), AccountData.class);
 
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            creds.getEmail(),
-                            creds.getPassword(),
+                            credentials.getEmail(),
+                            credentials.getPassword(),
                             new ArrayList<>())
             );
         } catch (IOException e) {
