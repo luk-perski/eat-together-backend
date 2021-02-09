@@ -43,9 +43,9 @@ public class EventService implements IEventService {
         eventData.setCreatorAccountId(accountData.getId());
         eventData.setCreatorName(String.format("%s (%s)",
                 accountData.getUserData().getFirstName(), accountData.getUserData().getCompanyName()));
-        EventData savedEventData = eventRepository.save(eventData);
+        eventData = eventRepository.save(eventData);
         addEventParticipant(eventData, accountData.getUserData());
-        return savedEventData;
+        return eventData;
     }
 
     @Override
