@@ -6,8 +6,8 @@ import java.util.Date;
 
 @Data
 public class EventDtoGet {
-    private int id;
-    private String creatorDisplayName;
+    private Integer id;
+    private String creatorName;
     private Date date;
     private String placeName;
     private double locationLongitude;

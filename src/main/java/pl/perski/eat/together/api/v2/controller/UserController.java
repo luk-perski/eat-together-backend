@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import pl.perski.eat.together.api.v2.dto.user.UserDtoGet;
 import pl.perski.eat.together.api.v2.dto.user.UserDtoPost;
 import pl.perski.eat.together.api.v2.dto.user.UserMapper;
-import pl.perski.eat.together.database.model.UserData;
 import pl.perski.eat.together.service.IUserService;
 
 import javax.validation.Valid;

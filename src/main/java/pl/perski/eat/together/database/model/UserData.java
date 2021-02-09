@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 public class UserData extends AuditModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     @Column(name = "first_name")
     @NotNull
     private String firstName;
