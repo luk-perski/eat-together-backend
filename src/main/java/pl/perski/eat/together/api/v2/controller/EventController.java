@@ -19,40 +19,41 @@ import java.util.List;
 @RequiredArgsConstructor
 @Tag(name = "events", description = "the Events API")
 @RestController
+@RequestMapping("/events")
 public class EventController {
 
     private final IEventService eventService;
     private final EventMapper eventMapper;
 
     @Operation(summary = "Get all Events", description = "Events", tags = {"events"})
-    @GetMapping(value = "/events", consumes = "application/json")
+    @GetMapping(consumes = "application/json")
     public List<EventDtoGet> getAllEvents(@Parameter(hidden = true) Authentication authentication) {
         return eventMapper.toEventsDTOs(eventService.getAll(authentication.getName()));
     }
 
-    @PostMapping(value = "/events", consumes = "application/json", produces = "application/json")
+    @PostMapping(consumes = "application/json", produces = "application/json")
     @ResponseStatus(value = HttpStatus.CREATED)
     public EventDtoGet addEvent(@Valid @RequestBody EventDtoPost request, @Parameter(hidden = true) Authentication authentication) {
         EventData eventData = eventMapper.toEventData(request);
         return eventMapper.toEventDtoGet(eventService.addEvent(eventData, authentication.getName()));
     }
 
-    @GetMapping(value = "/events/current", consumes = "application/json", produces = "application/json")
+    @GetMapping(value = "/current", consumes = "application/json", produces = "application/json")
     public List<EventDtoGet> getAllFromNow(@Parameter(hidden = true) Authentication authentication) {
         return eventMapper.toEventsDTOs(eventService.getAllActiveFromNow(authentication.getName()));
     }
 
-    @PutMapping(value = "/events/join", consumes = "application/json", produces = "text/plain")
-    public String joinToEvent(@RequestParam int eventId, @Parameter(hidden = true) Authentication authentication) {
+    @PutMapping(value = "/join/{eventId}", consumes = "application/json", produces = "text/plain")
+    public String joinToEvent(@PathVariable int eventId, @Parameter(hidden = true) Authentication authentication) {
         return (eventService.joinToEvent(eventId, authentication.getName()));
     }
 
-    @DeleteMapping(value = "/events/left", consumes = "application/json")
-    public String leftFromEvent(@RequestParam int eventId, @Parameter(hidden = true) Authentication authentication) {
+    @DeleteMapping(value = "/left/{eventId}", consumes = "application/json")
+    public String leftFromEvent(@PathVariable int eventId, @Parameter(hidden = true) Authentication authentication) {
         return eventService.leftFromEvent(eventId, authentication.getName());
     }
 
-    @DeleteMapping(value = "/events/deactivate", consumes = "application/json")
+    @DeleteMapping(value = "/deactivate", consumes = "application/json")
     public String deactivateEvent(@RequestParam int eventId, @Parameter(hidden = true) Authentication authentication) {
         return eventService.deactivateEvent(eventId, authentication.getName());
     }
