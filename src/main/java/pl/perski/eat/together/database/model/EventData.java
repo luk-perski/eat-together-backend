@@ -8,7 +8,7 @@ import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 @Data
 @Entity
 @Builder

@@ -5,7 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 @Data
 @Builder
 @Entity

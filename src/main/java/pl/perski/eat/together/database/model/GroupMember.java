@@ -6,7 +6,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 @Data
 @Entity
 @Builder
