@@ -1,4 +1,4 @@
-package pl.perski.eat.together.dto;
+package pl.perski.eat.together.unit.dto;
 
 import org.junit.Test;
 import pl.perski.eat.together.api.v2.dto.user.UserDtoGet;

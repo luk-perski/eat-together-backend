@@ -1,4 +1,4 @@
-package pl.perski.eat.together;
+package pl.perski.eat.together.unit;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

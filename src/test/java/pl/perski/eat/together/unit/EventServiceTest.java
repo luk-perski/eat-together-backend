@@ -1,4 +1,4 @@
-package pl.perski.eat.together;
+package pl.perski.eat.together.unit;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

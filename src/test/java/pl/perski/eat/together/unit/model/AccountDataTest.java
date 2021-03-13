@@ -1,4 +1,4 @@
-package pl.perski.eat.together.model;
+package pl.perski.eat.together.unit.model;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
