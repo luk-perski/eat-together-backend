@@ -11,7 +11,7 @@ Spring Boot app written as part of the diploma thesis "Comparative analysis of t
 * [MapStruct](https://mapstruct.org/)
 * [springdoc-openapi](https://springdoc.org/)
 
-##Scripts
+## Scripts
 
 Run project:
 `mvn spring-boot:run`
